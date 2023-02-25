@@ -158,7 +158,7 @@
                     id="media"
                     name="media"
                     class="form-control mb-3"
-                    placeholder=". . . and the media URL? "
+                    placeholder=". . . and the media URL? ex: https://url.com/image.jpg"
                     aria-label="Add URL of a media for the new post"
                   />
 
@@ -170,18 +170,23 @@
         </div>
       </div>
 
-      <div class="testPaste d-flex justify-content-center"></div>
+      <div class="api-entries"></div>
 
-      <div class="container d-flex justify-content-center">
+      <!-- <div class="container d-flex justify-content-center">
         <div class="card card-custom mt-4 shadow-sm bg-white border-0">
           <div class="card-body pb-0">
             <div class="row">
               <img
-                class="col-2 col-sm-2 rounded-circle img-user m-0 mb-3"
+                class="col-2 col-sm-2 rounded img-user m-0 mb-3"
                 src="/img/user1.jpg"
                 alt="Adam Murphy"
               />
-              <h2 class="card-title col fs-5 m-0 pt-3">Adam Murphy</h2>
+              <a
+                href=""
+                class="card-title col m-0 pt-3 text-decoration-none text-black"
+              >
+                <h2 class="fs-5">Adam Murphy</h2></a
+              >
               <ul class="navbar-nav mr-auto col-1 text-end">
                 <li class="nav-item dropdown">
                   <a
@@ -287,18 +292,19 @@
             </div>
           </div>
         </div>
-      </div>
+      </div> -->
 
-      <div class="container d-flex justify-content-center">
+      <!-- <div class="container d-flex justify-content-center">
         <div class="card card-custom mt-4 shadow-sm bg-white border-0">
           <div class="card-body pb-0">
             <div class="row">
               <img
                 class="col-2 col-sm-2 rounded-circle img-user m-0 mb-3"
-                src="/img/friend1.jpg"
-                alt="Alberto Leche"
+                alt="${author}"
               />
-              <h2 class="card-title col fs-5 m-0 pt-3">Alberto Leche</h2>
+              <h2 class="card-title col fs-5 m-0 pt-3">
+                ${title} <small><em>wrote by</em> ${author}</small>
+              </h2>
               <ul class="navbar-nav mr-auto col-1 text-end">
                 <li class="nav-item dropdown">
                   <a
@@ -323,20 +329,11 @@
                 </li>
               </ul>
               <div class="d-flex justify-content-between">
-                <em class="fs-6"> <small> Wrote on their wall</small></em>
-                <small>30 mins ago</small>
+                <em class="fs-6"> <small>${tags}</small></em>
+                <small>${created}</small>
               </div>
-              <img
-                src="/img/imgpost1.jpg"
-                alt="a kitten"
-                class="card-img mt-4"
-              />
-              <div class="card-text pt-3">
-                I got a kitten! Lorem ipsum dolor, sit amet consectetur
-                adipisicing elit. Ratione, voluptas adipisci? Necessitatibus
-                beatae nam, rem voluptate neque, dolores, numquam fugit ratione
-                sequi amet quam odit. Aperiam nam quia deserunt distinctio.
-              </div>
+              <img alt="${media}" class="card-img mt-4" />
+              <div class="card-text pt-3">${body}</div>
 
               <div
                 class="d-flex justify-content-center border-top border-bottom mt-3"
@@ -369,9 +366,9 @@
             </div>
           </div>
         </div>
-      </div>
+      </div> -->
 
-      <div class="container d-flex justify-content-center">
+      <!-- <div class="container d-flex justify-content-center">
         <div class="card card-custom mt-4 shadow-sm bg-white border-0">
           <div class="card-body pb-0">
             <div class="row">
@@ -452,7 +449,7 @@
             </div>
           </div>
         </div>
-      </div>
+      </div> -->
     </main>
 
     <footer class="mt-5 py-3">

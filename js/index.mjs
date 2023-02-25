@@ -1,6 +1,7 @@
-import { setRegisterFormListener } from "./handlers/registerForm.mjs";
-import { setLoginFormListener } from "./handlers/loginForm.mjs";
-import { setLogoutFormListener } from "./handlers/logoutForm.mjs";
+import { setRegisterFormListener } from "./handlers/registerHandler.mjs";
+import { setLoginFormListener } from "./handlers/loginHandler.mjs";
+import { clearTokenAndLogout } from "./handlers/logoutHandler.mjs";
+import { displayEntries } from "./handlers/homeHandler.mjs";
 import { redirectToHome, redirectToLogin } from "./globals/redirect.mjs";
 import { load } from "./globals/storage.mjs";
 import {
@@ -21,6 +22,7 @@ switch (path) {
     if (token === null) {
       redirectToLogin();
     }
+    displayEntries();
     break;
 
   case "/html/user/login/":
@@ -35,7 +37,7 @@ switch (path) {
     break;
 
   case "/html/user/logout/":
-    setLogoutFormListener();
+    clearTokenAndLogout();
     break;
 
   case "/html/user/profile/":
@@ -47,9 +49,11 @@ switch (path) {
 }
 
 // createEntry({
-//   title: "dont delete me pls",
-//   body: "Lots of text",
-//   tags: ["winning"],
+//   title: "Whant pancakes for dinner?",
+//   body: "Lots of text about how pancakes are the best, and why you should eat them for dinner everyday",
+//   tags: ["hungry", "food", "sweet"],
+//   media:
+//     "https://images.unsplash.com/photo-1558401391-7899b4bd5bbf?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=686&q=80",
 // })
 //   .then((data) => {
 //     console.log(data);

@@ -2,7 +2,7 @@ import { API_SOCIAL_URL, API_EXTRA_DATA } from "../globals/constants.mjs";
 import { fetchRequestWithToken } from "../globals/api.mjs";
 
 export async function getEntries() {
-  const apiEndpoint = `${API_SOCIAL_URL}/posts`;
+  const apiEndpoint = `${API_SOCIAL_URL}/posts${API_EXTRA_DATA}`;
   const apiMethod = "GET";
   const apiBody = "";
 
