@@ -1,0 +1,31 @@
+.img-user{
+    object-fit: cover;
+    width: 80px;
+    height: auto;
+  }
+
+  .img-comment{
+    object-fit: cover;
+    width: 60px;
+    height: auto;
+  }
+
+.card-custom{
+    width: 100%;
+}
+
+.fa-ellipsis-vertical{
+  cursor: pointer;
+}
+
+li.dropdown:last-child .dots-edit {
+  right: 0;
+  left: auto;
+}
+
+  @include media-breakpoint-up(lg){
+    .card-custom{
+        width: 700px;
+      }
+  }
+  
