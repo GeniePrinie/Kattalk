@@ -1,7 +1,8 @@
 import { setRegisterFormListener } from "./handlers/registerHandler.mjs";
 import { setLoginFormListener } from "./handlers/loginHandler.mjs";
 import { clearTokenAndLogout } from "./handlers/logoutHandler.mjs";
-import { displayEntries } from "./handlers/homeHandler.mjs";
+import { displayEntries } from "./handlers/homeHandler/homeHandler.mjs";
+import { displayEntry } from "./handlers/postHandler/postHandler.mjs";
 import { redirectToHome, redirectToLogin } from "./globals/redirect.mjs";
 import { load } from "./globals/storage.mjs";
 import {
@@ -14,17 +15,10 @@ import {
 } from "../js/controllers/entryController.mjs";
 
 const path = location.pathname;
+console.log(path);
 const token = load("token");
 
 switch (path) {
-  case "/":
-  case "/index.html":
-    if (token === null) {
-      redirectToLogin();
-    }
-    displayEntries();
-    break;
-
   case "/html/user/login/":
     if (token !== null) {
       redirectToHome();
@@ -38,6 +32,45 @@ switch (path) {
 
   case "/html/user/logout/":
     clearTokenAndLogout();
+    break;
+
+  case "/":
+  case "/index.html":
+    if (token === null) {
+      redirectToLogin();
+    }
+    displayEntries();
+    // const formCreatePost = document.querySelector(".form-create-post");
+    // formCreatePost.addEventListener("submit", (e) => {
+    //   const form = e.target;
+    //   const formData = new FormData(form);
+    //   const profile = Object.fromEntries(formData.entries());
+
+    //   if (profile.body == "") {
+    //     delete profile.body;
+    //   }
+
+    //   if (profile.tags == "") {
+    //     delete profile.tags;
+    //   }
+
+    //   if (profile.media == "") {
+    //     delete profile.media;
+    //   }
+
+    //   createEntry(profile)
+    //     .then((data) => {
+    //       console.log(data);
+    //     })
+    //     .catch((error) => {
+    //       console.log(error);
+    //     });
+    // });
+    // setPostFormListener();
+    break;
+
+  case "/html/post/":
+    displayEntry();
     break;
 
   case "/html/user/profile/":
@@ -94,7 +127,7 @@ switch (path) {
 //     console.log(error);
 //   });
 
-// reactToEntry(3527, "🥰")
+// reactToEntry(3629, "🥰")
 //   .then((data) => {
 //     console.log(data);
 //     console.log(JSON.stringify(data));

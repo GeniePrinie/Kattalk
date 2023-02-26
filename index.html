@@ -87,6 +87,36 @@
     </nav>
 
     <main>
+      <!-- Modal -->
+      <div
+        class="modal fade"
+        id="feedbackModal"
+        tabindex="-1"
+        role="dialog"
+        aria-labelledby="feedbackModalLabel"
+        aria-hidden="true"
+      >
+        <div class="modal-dialog" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="feedbackModalLabel">
+                Feedback Message
+              </h5>
+            </div>
+            <div class="modal-body"></div>
+            <div class="modal-footer">
+              <button
+                type="button"
+                class="btn btn-secondary"
+                data-dismiss="modal"
+              >
+                Close
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
       <div class="container d-flex justify-content-center">
         <div
           class="accordion card card-custom mt-4 shadow-sm bg-white border-0"
@@ -124,7 +154,12 @@
               data-parent="#accordionCreatePost"
             >
               <div class="card-body">
-                <form class="m-0 ps-0 align-self-center">
+                <form
+                  class="m-0 ps-0 align-self-center form-create-post"
+                  id="form-create-post"
+                  method="post"
+                  novalidate
+                >
                   <input
                     name="title"
                     type="text"
@@ -146,10 +181,11 @@
                   ></textarea>
 
                   <input
+                    name="tags"
                     type="text"
-                    id="comment"
+                    id="tags"
                     class="form-control mb-3"
-                    placeholder=". . . and the tag(s)?"
+                    placeholder=". . . and the tag(s)? ex: cool, awesome, trendy"
                     aria-label="Tag(s) of a new post"
                   />
 
@@ -162,14 +198,15 @@
                     aria-label="Add URL of a media for the new post"
                   />
 
-                  <button class="btn btn-primary">Post</button>
+                  <button class="btn btn-primary" type="submit">Post</button>
                 </form>
               </div>
             </div>
           </div>
         </div>
       </div>
-
+      <!-- data-toggle="modal"
+      data-target="#feedbackModal" -->
       <div class="api-entries"></div>
 
       <!-- <div class="container d-flex justify-content-center">

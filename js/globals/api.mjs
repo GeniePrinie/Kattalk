@@ -26,7 +26,6 @@ export async function fetchRequestWithToken(url, method, body) {
       method: method,
       headers: {
         Authorization: "Bearer " + token,
-        "Content-type": "application/json",
       },
     };
   }
