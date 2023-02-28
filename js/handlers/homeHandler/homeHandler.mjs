@@ -1,7 +1,10 @@
 import { getEntries, createEntry } from "../../controllers/entryController.mjs";
-import { renderAllPosts } from "../homeHandler/renderAllPosts.mjs";
+import { renderAllPosts } from "./renderAllPosts.mjs";
+import { renderCreateEntry } from "./renderCreateEntry.mjs";
 
-export function buildEntry() {}
+export function displayPostEntry() {
+  renderCreateEntry();
+}
 
 export function displayEntries() {
   getEntries()
@@ -28,21 +31,21 @@ export function displayEntries() {
     });
 }
 
-export function searchEntries(entries) {
-  const userSearch = document.querySelector(".search"); // linked to user input
+// export function searchEntries(entries) {
+//   const userSearch = document.querySelector(".search"); // linked to user input
 
-  userSearch.onkeyup = function (event) {
-    const searchValue = event.target.value.trim().toLowerCase();
+//   userSearch.onkeyup = function (event) {
+//     const searchValue = event.target.value.trim().toLowerCase();
 
-    const filteredEntries = entries.filter((entry) => {
-      if (recipe.title.rendered.toLowerCase().includes(searchValue)) {
-        return true;
-      }
-    });
+//     const filteredEntries = entries.filter((entry) => {
+//       if (recipe.title.rendered.toLowerCase().includes(searchValue)) {
+//         return true;
+//       }
+//     });
 
-    renderAllPosts(filteredPosts);
-  };
-}
+//     renderAllPosts(filteredPosts);
+//   };
+// }
 
 // const formCreatePost = document.querySelector(".form-create-post");
 

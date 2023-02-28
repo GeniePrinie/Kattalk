@@ -1,7 +1,12 @@
-import { setRegisterFormListener } from "./handlers/registerHandler.mjs";
-import { setLoginFormListener } from "./handlers/loginHandler.mjs";
-import { clearTokenAndLogout } from "./handlers/logoutHandler.mjs";
-import { displayEntries } from "./handlers/homeHandler/homeHandler.mjs";
+import { setRegisterFormListener } from "./handlers/registerHandler/registerHandler.mjs";
+import { setLoginFormListener } from "./handlers/loginHandler/loginHandler.mjs";
+import { clearTokenAndLogout } from "./handlers/logoutHandler/logoutHandler.mjs";
+import {
+  displayEntries,
+  displayPostEntry,
+} from "./handlers/homeHandler/homeHandler.mjs";
+import { deleteEntry } from "./handlers/deleteHandler/deleteHandler.mjs";
+import { editEntry } from "./handlers/editHandler/editHandler.mjs";
 import { displayEntry } from "./handlers/postHandler/postHandler.mjs";
 import { displayProfile } from "./handlers/profileHandler/profileHandler.mjs";
 import { redirectToHome, redirectToLogin } from "./shared/redirect.mjs";
@@ -39,6 +44,7 @@ switch (path) {
     if (token === null) {
       redirectToLogin();
     }
+    displayPostEntry();
     displayEntries();
     // const formCreatePost = document.querySelector(".form-create-post");
     // formCreatePost.addEventListener("submit", (e) => {
@@ -69,12 +75,20 @@ switch (path) {
     // setPostFormListener();
     break;
 
-  case "/html/post/":
+  case "/html/user/profile/":
+    displayProfile();
+    break;
+
+  case "/html/post/details/":
     displayEntry();
     break;
 
-  case "/html/user/profile/":
-    displayProfile();
+  case "/html/post/edit/":
+    editEntry();
+    break;
+
+  case "/html/post/delete/":
+    deleteEntry();
     break;
 
   default:
@@ -118,7 +132,7 @@ switch (path) {
 //     console.log(error);
 //   });
 
-// removeEntry(3526)
+// removeEntry(3741)
 //   .then((data) => {
 //     console.log(data);
 //     console.log(JSON.stringify(data));

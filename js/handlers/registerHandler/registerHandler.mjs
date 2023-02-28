@@ -1,6 +1,6 @@
-import { createModal } from "../shared/modal.mjs";
-import { redirectToLogin } from "../shared/redirect.mjs";
-import { register } from "../controllers/userController.mjs";
+import { createModal } from "../../shared/modal.mjs";
+import { redirectToLogin } from "../../shared/redirect.mjs";
+import { register } from "../../controllers/userController.mjs";
 
 const formNewAccount = document.querySelector(".form-register");
 

@@ -1,6 +1,6 @@
-import { createModal } from "../shared/modal.mjs";
-import { login } from "../controllers/userController.mjs";
-import { redirectToHome } from "../shared/redirect.mjs";
+import { createModal } from "../../shared/modal.mjs";
+import { login } from "../../controllers/userController.mjs";
+import { redirectToHome } from "../../shared/redirect.mjs";
 
 const formLogin = document.querySelector(".form-login");
 
