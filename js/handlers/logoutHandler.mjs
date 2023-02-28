@@ -1,5 +1,5 @@
-import { redirectToLogin } from "../globals/redirect.mjs";
-import { remove } from "../globals/storage.mjs";
+import { redirectToLogin } from "../shared/redirect.mjs";
+import { remove } from "../shared/storage.mjs";
 
 export function clearTokenAndLogout() {
   remove("token");

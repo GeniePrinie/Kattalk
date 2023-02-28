@@ -3,8 +3,8 @@ import { setLoginFormListener } from "./handlers/loginHandler.mjs";
 import { clearTokenAndLogout } from "./handlers/logoutHandler.mjs";
 import { displayEntries } from "./handlers/homeHandler/homeHandler.mjs";
 import { displayEntry } from "./handlers/postHandler/postHandler.mjs";
-import { redirectToHome, redirectToLogin } from "./globals/redirect.mjs";
-import { load } from "./globals/storage.mjs";
+import { redirectToHome, redirectToLogin } from "./shared/redirect.mjs";
+import { load } from "./shared/storage.mjs";
 import {
   getEntry,
   createEntry,

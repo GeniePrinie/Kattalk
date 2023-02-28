@@ -1,6 +1,6 @@
-import { API_SOCIAL_URL } from "../globals/constants.mjs";
-import { save, remove } from "../globals/storage.mjs";
-import { fetchRequestWithoutToken } from "../globals/api.mjs";
+import { API_SOCIAL_URL } from "../shared/constants.mjs";
+import { save, remove } from "../shared/storage.mjs";
+import { fetchRequestWithoutToken } from "../shared/api.mjs";
 
 export async function register(profile) {
   const apiEndpoint = API_SOCIAL_URL + "/auth/register";
@@ -39,6 +39,10 @@ export async function login(profile) {
 
   save("token", accessToken);
   save("profile", user);
+
+  // const userName = profile.name;
+  // const userOwner = document.querySelector(".user-owner");
+  // userOwner.innerHTML += `${userName}`;
 }
 
 export async function logout() {

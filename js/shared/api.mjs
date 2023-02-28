@@ -1,4 +1,4 @@
-import { load } from "../globals/storage.mjs";
+import { load } from "../shared/storage.mjs";
 
 export async function fetchRequestWithoutToken(url, method, body) {
   return await fetch(url, {

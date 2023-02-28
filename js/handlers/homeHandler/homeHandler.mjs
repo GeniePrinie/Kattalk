@@ -1,6 +1,7 @@
 import { getEntries, createEntry } from "../../controllers/entryController.mjs";
 import { renderAllPosts } from "../homeHandler/renderAllPosts.mjs";
-//export function buildEntry() {}
+
+export function buildEntry() {}
 
 export function displayEntries() {
   getEntries()
@@ -25,6 +26,22 @@ export function displayEntries() {
     .catch((error) => {
       console.log(error);
     });
+}
+
+export function searchEntries(entries) {
+  const userSearch = document.querySelector(".search"); // linked to user input
+
+  userSearch.onkeyup = function (event) {
+    const searchValue = event.target.value.trim().toLowerCase();
+
+    const filteredEntries = entries.filter((entry) => {
+      if (recipe.title.rendered.toLowerCase().includes(searchValue)) {
+        return true;
+      }
+    });
+
+    renderAllPosts(filteredPosts);
+  };
 }
 
 // const formCreatePost = document.querySelector(".form-create-post");

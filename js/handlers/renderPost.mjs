@@ -1,9 +1,9 @@
-import { isValidUrl } from "../globals/validURL.mjs";
-import { load } from "../globals/storage.mjs";
+import { isValidUrl } from "../shared/validURL.mjs";
+import { load } from "../shared/storage.mjs";
 
 export function renderPost(post, apiClassName) {
   const apiEntry = document.querySelector(apiClassName);
-  const postTitle = getPostTitle(post.author, post.title);
+  const postTitle = getPostTitle(post.author, post.title, post.id);
   const optionsMenu = getOptionsMenu(post.author);
   const timeAndTags = getTimeAndTags(post.tags, post.created);
   const mediaImage = getMediaImage(post.media);
@@ -40,14 +40,16 @@ export function renderPost(post, apiClassName) {
   </div>`;
 }
 
-function getPostTitle(author, title) {
+function getPostTitle(author, title, id) {
   const authorName = author.name;
   const authorAvatar = isValidUrl(author.avatar)
     ? author.avatar
     : "https://images.unsplash.com/photo-1627373574917-572a86881d73?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1528&q=80";
 
   return `<img class="col-2 col-sm-2 rounded img-user m-0 mb-3" src="${authorAvatar}" alt="${authorName}"/>
-          <h2 class="fs-5 col">${title} <small><em>written by</em> ${authorName}</small></h2>`;
+          <a href="/html/post/?id=${id}" class="card-title col m-0 pt-3 text-decoration-none text-black">
+            <h2 class="fs-5 col">${title} <small><em>written by</em> ${authorName}</small></h2>
+          </a>`;
 }
 
 function getOptionsMenu(author) {

@@ -26,101 +26,42 @@
   </head>
 
   <body class="bg-light">
-    <nav class="navbar navbar-expand-lg shadow-sm bg-white">
-      <div class="container">
-        <a href="/" class="navbar-brand"
-          ><i class="fa-solid fa-shield-cat fa-2x"></i
-        ></a>
-
-        <button
-          class="navbar-toggler text-primary"
-          type="button"
-          data-toggle="collapse"
-          data-target="#navbarSupportedContent"
-          aria-controls="navbarSupportedContent"
-          aria-expanded="false"
-          aria-label="Toggle navigation"
-        >
-          <span class="navbar-toggler-icon"></span>
-        </button>
-
-        <div
-          class="collapse navbar-collapse justify-content-between"
-          id="navbarSupportedContent"
-        >
-          <form class="form-inline d-flex my-2 my-lg-0 ms-lg-5">
-            <input
-              class="form-control mr-sm-2 mx-2"
-              type="search"
-              placeholder="Search"
-              aria-label="Search"
-            />
-            <button class="btn btn-outline-primary" type="submit">
-              Search
-            </button>
-          </form>
-
-          <ul class="navbar-nav mr-auto">
-            <li class="nav-item dropdown">
-              <a
-                href="#"
-                class="nav-link dropdown-toggle"
-                id="navbarDropdown"
-                role="button"
-                data-toggle="dropdown"
-                aria-haspopup="true"
-                aria-expanded="false"
-                >Adam</a
-              >
-              <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                <a class="dropdown-item" href="/html/user/profile/"
-                  >View Profile</a
-                >
-                <div class="dropdown-divider"></div>
-                <a class="dropdown-item logout" href="/html/user/logout/"
-                  >Log out</a
-                >
-              </div>
-            </li>
-          </ul>
-        </div>
-      </div>
-    </nav>
+    <!-- Header nav bar -->
+    <nav class="header navbar navbar-expand-lg shadow-sm bg-white"></nav>
 
     <main>
+      <div class="display-account"></div>
+
       <div>
         <div class="card shadow-sm bg-white border-0 mt-1 rounded-0">
           <div class="card-body">
             <img
               src="/img/user1.jpg"
               alt="Adam Murphy profile picture"
-              class="rounded-circle img-profile d-block ms-auto me-auto"
+              class="img-profile d-block ms-auto me-auto"
             />
-            <h1 class="my-2 text-center">Adam Murphy</h1>
+            <h1 class="my-2 text-center user-owner">Adam Murphy</h1>
           </div>
         </div>
       </div>
 
-      <div class="container mt-5 px-4">
-        <div class="row row-cols-1 gy-3 gx-5">
-          <div class="col-lg-5">
-            <div class="row g-3">
-              <div class="card card-custom mt-4 shadow-sm bg-white border-0">
-                <div class="card-body">
-                  <h2 class="card-title fs-4">Bio</h2>
-                  <div class="card-text">
-                    Birthday: June 24th 1997
-                    <br />
-                    Gender: Male
-                    <br />
-                    Status: Single
-                    <br />
-                    Location: Honolulu, Hawaii
-                  </div>
-                </div>
-              </div>
+      <div class="container mt-5 px-4 d-flex justify-content-center">
+        <!-- <div class="row row-cols-1 gy-3 gx-5"> -->
+        <!-- <div class="col-lg-5"> -->
+        <!-- <div class="row g-3"> -->
+        <div class="card card-custom mt-4 shadow-sm bg-white border-0">
+          <div class="card-body">
+            <h2 class="card-title fs-4">Info</h2>
+            <div class="card-text">
+              Name: Adam
+              <br />
+              Email: Maleperson@noroff.no
+              <br />
+            </div>
+          </div>
+        </div>
 
-              <div class="card card-custom mt-4 shadow-sm bg-white border-0">
+        <!-- <div class="card card-custom mt-4 shadow-sm bg-white border-0">
                 <div class="card-body">
                   <h2 class="card-title fs-4">Contacts</h2>
                   <div class="row row-cols-3 gy-4">
@@ -169,11 +110,11 @@
                     </div>
                   </div>
                 </div>
-              </div>
-            </div>
-          </div>
+              </div> -->
+        <!-- </div> -->
+        <!-- </div> -->
 
-          <div class="col-lg-7">
+        <!-- <div class="col-lg-7">
             <div class="row g-3">
               <div class="card card-custom mt-4 shadow-sm bg-white border-0">
                 <div class="card-body">
@@ -354,26 +295,18 @@
                 </div>
               </div>
             </div>
-          </div>
-        </div>
+          </div> -->
+        <!-- </div> -->
       </div>
+      <style>
+        main {
+          background-image: url("https://images.unsplash.com/photo-1527713836621-aa1aff335483?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=687&q=80");
+        }
+      </style>
     </main>
 
-    <footer class="mt-5 py-3">
-      <nav class="navbar navbar-expand-md">
-        <div class="container d-flex justify-content-center">
-          <ul class="navbar-nav">
-            <li class="nav-item">
-              <a href="/" class="nav-link">Home</a>
-            </li>
-            <li class="nav-item">
-              <a href="/html/user/profile/" class="nav-link">Profile</a>
-            </li>
-          </ul>
-        </div>
-      </nav>
-      <p class="d-flex justify-content-center">Copyright © Kattalk, 2023</p>
-    </footer>
+    <!-- Footer nav bar -->
+    <footer class="mt-5 py-3 footer"></footer>
 
     <script
       src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
@@ -385,5 +318,7 @@
       integrity="sha384-ho+j7jyWK8fNQe+A12Hb8AhRq26LrZ/JpcUGGOn+Y7RsweNrtN/tE3MoK7ZeZDyx"
       crossorigin="anonymous"
     ></script>
+    <script src="../../../js/shared/header.mjs"></script>
+    <script src="../../../js/shared/footer.mjs"></script>
   </body>
 </html>
