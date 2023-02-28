@@ -97,7 +97,7 @@ function getMediaImage(media) {
 }
 
 function getPostBody(body) {
-  return `<div class="card-text pt-3">${body}</div>`;
+  return body == null ? "" : `<div class="card-text pt-3">${body}</div>`;
 }
 
 function getInteractionCount(count) {

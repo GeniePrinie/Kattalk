@@ -28,7 +28,7 @@ export function setRegisterFormListener() {
 
 function handleSuccessful(user) {
   createModal(`User for <b>${user.name}</b> created successfully.`);
-  const clearForm = document.querySelector(".modal-close");
+  const clearForm = document.querySelector(".modal-close-register");
   clearForm.addEventListener("click", redirectToLogin);
 }
 

@@ -1,8 +1,17 @@
 import { createModal } from "../../shared/modal.mjs";
 import { login } from "../../controllers/userController.mjs";
+import { load } from "../../shared/storage.mjs";
 import { redirectToHome } from "../../shared/redirect.mjs";
 
 const formLogin = document.querySelector(".form-login");
+
+export function checkIfLoggedOut() {
+  const token = load("token");
+
+  if (token !== null) {
+    redirectToHome();
+  }
+}
 
 export function setLoginFormListener() {
   if (formLogin) {

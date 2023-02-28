@@ -1,16 +1,21 @@
-import { setRegisterFormListener } from "./handlers/registerHandler/registerHandler.mjs";
-import { setLoginFormListener } from "./handlers/loginHandler/loginHandler.mjs";
-import { clearTokenAndLogout } from "./handlers/logoutHandler/logoutHandler.mjs";
+import { Pages } from "./shared/pages.mjs";
 import {
+  checkIfLoggedIn,
   displayEntries,
   displayPostEntry,
+  setCreateFormListener,
 } from "./handlers/homeHandler/homeHandler.mjs";
-import { deleteEntry } from "./handlers/deleteHandler/deleteHandler.mjs";
-import { editEntry } from "./handlers/editHandler/editHandler.mjs";
-import { displayEntry } from "./handlers/postHandler/postHandler.mjs";
+import {
+  checkIfLoggedOut,
+  setLoginFormListener,
+} from "./handlers/loginHandler/loginHandler.mjs";
+import { clearTokenAndLogout } from "./handlers/logoutHandler/logoutHandler.mjs";
+import { setRegisterFormListener } from "./handlers/registerHandler/registerHandler.mjs";
 import { displayProfile } from "./handlers/profileHandler/profileHandler.mjs";
-import { redirectToHome, redirectToLogin } from "./shared/redirect.mjs";
-import { load } from "./shared/storage.mjs";
+import { displayEntry } from "./handlers/postHandler/postHandler.mjs";
+import { editEntry } from "./handlers/editHandler/editHandler.mjs";
+import { deleteEntry } from "./handlers/deleteHandler/deleteHandler.mjs";
+
 import {
   getEntry,
   createEntry,
@@ -21,73 +26,42 @@ import {
 } from "../js/controllers/entryController.mjs";
 
 const path = location.pathname;
-const token = load("token");
 
 switch (path) {
-  case "/html/user/login/":
-    if (token !== null) {
-      redirectToHome();
-    }
+  case Pages.Start:
+  case Pages.Home:
+    checkIfLoggedIn();
+    displayPostEntry();
+    displayEntries();
+    setCreateFormListener();
+    break;
+
+  case Pages.Login:
+    checkIfLoggedOut();
     setLoginFormListener();
     break;
 
-  case "/html/user/register/":
-    setRegisterFormListener();
-    break;
-
-  case "/html/user/logout/":
+  case Pages.Logout:
     clearTokenAndLogout();
     break;
 
-  case "/":
-  case "/index.html":
-    if (token === null) {
-      redirectToLogin();
-    }
-    displayPostEntry();
-    displayEntries();
-    // const formCreatePost = document.querySelector(".form-create-post");
-    // formCreatePost.addEventListener("submit", (e) => {
-    //   const form = e.target;
-    //   const formData = new FormData(form);
-    //   const profile = Object.fromEntries(formData.entries());
-
-    //   if (profile.body == "") {
-    //     delete profile.body;
-    //   }
-
-    //   if (profile.tags == "") {
-    //     delete profile.tags;
-    //   }
-
-    //   if (profile.media == "") {
-    //     delete profile.media;
-    //   }
-
-    //   createEntry(profile)
-    //     .then((data) => {
-    //       console.log(data);
-    //     })
-    //     .catch((error) => {
-    //       console.log(error);
-    //     });
-    // });
-    // setPostFormListener();
+  case Pages.Register:
+    setRegisterFormListener();
     break;
 
-  case "/html/user/profile/":
+  case Pages.Profile:
     displayProfile();
     break;
 
-  case "/html/post/details/":
+  case Pages.Details:
     displayEntry();
     break;
 
-  case "/html/post/edit/":
+  case Pages.Details:
     editEntry();
     break;
 
-  case "/html/post/delete/":
+  case Pages.Delete:
     deleteEntry();
     break;
 
@@ -96,7 +70,7 @@ switch (path) {
 }
 
 // createEntry({
-//   title: "Whant pancakes for dinner?",
+//   title: "W2 pancakes for dinner?",
 //   body: "Lots of text about how pancakes are the best, and why you should eat them for dinner everyday",
 //   tags: ["hungry", "food", "sweet"],
 //   media:
