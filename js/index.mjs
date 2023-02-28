@@ -3,6 +3,7 @@ import { setLoginFormListener } from "./handlers/loginHandler.mjs";
 import { clearTokenAndLogout } from "./handlers/logoutHandler.mjs";
 import { displayEntries } from "./handlers/homeHandler/homeHandler.mjs";
 import { displayEntry } from "./handlers/postHandler/postHandler.mjs";
+import { displayProfile } from "./handlers/profileHandler/profileHandler.mjs";
 import { redirectToHome, redirectToLogin } from "./shared/redirect.mjs";
 import { load } from "./shared/storage.mjs";
 import {
@@ -15,7 +16,6 @@ import {
 } from "../js/controllers/entryController.mjs";
 
 const path = location.pathname;
-console.log(path);
 const token = load("token");
 
 switch (path) {
@@ -74,7 +74,7 @@ switch (path) {
     break;
 
   case "/html/user/profile/":
-    console.log("user/profile/");
+    displayProfile();
     break;
 
   default:
