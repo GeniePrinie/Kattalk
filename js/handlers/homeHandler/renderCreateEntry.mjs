@@ -42,7 +42,7 @@ export function renderCreateEntry() {
 
         <div
           id="collapseOne"
-          class="collapse show"
+          class="collapse"
           aria-labelledby="headingOne"
           data-parent="#accordionCreatePost"
         >
