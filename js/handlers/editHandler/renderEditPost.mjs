@@ -37,8 +37,8 @@ export function renderEditPost(post) {
         
           <div class="card-body">
             <form
-              class="m-0 ps-0 align-self-center form-create-post"
-              id="form-create-post"
+              class="m-0 ps-0 align-self-center form-edit-post"
+              id="form-edit-post"
               method="post"
               novalidate
             >
@@ -92,7 +92,6 @@ export function renderEditPost(post) {
               </button>
             </form>
           </div>
-        
       </div>
     </div>
   </div>`;

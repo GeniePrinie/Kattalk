@@ -12,8 +12,11 @@ import {
 import { clearTokenAndLogout } from "./handlers/logoutHandler/logoutHandler.mjs";
 import { setRegisterFormListener } from "./handlers/registerHandler/registerHandler.mjs";
 import { displayProfile } from "./handlers/profileHandler/profileHandler.mjs";
-import { displayEntry } from "./handlers/postHandler/postHandler.mjs";
-import { editEntry } from "./handlers/editHandler/editHandler.mjs";
+import { displayEntry } from "./handlers/detailsHandler/detailsHandler.mjs";
+import {
+  displayEditEntry,
+  setEditFormListener,
+} from "./handlers/editHandler/editHandler.mjs";
 import { deleteEntry } from "./handlers/deleteHandler/deleteHandler.mjs";
 
 import {
@@ -57,8 +60,9 @@ switch (path) {
     displayEntry();
     break;
 
-  case Pages.Details:
-    editEntry();
+  case Pages.Edit:
+    displayEditEntry();
+    setEditFormListener();
     break;
 
   case Pages.Delete:
