@@ -1,13 +1,14 @@
-import { getEntry } from "../../controllers/entryController.mjs";
+import { getEntry, updateEntry } from "../../controllers/entryController.mjs";
 import { renderEditPost } from "./renderEditPost.mjs";
 import { redirectToHome } from "../../shared/redirect.mjs";
+import { createModal } from "../../shared/modal.mjs";
 
 const queryString = document.location.search;
 const params = new URLSearchParams(queryString);
 const id = params.get("id");
 
-export function displayEditEntry() {
-  getEntry(id)
+export async function displayEditEntry() {
+  await getEntry(id)
     .then((entry) => {
       const postData = {
         title: entry.title,
@@ -47,9 +48,9 @@ export function setEditFormListener() {
 }
 
 function restructureUserInput(post) {
-  const body = post.body;
-  const media = post.media;
-  const tags = post.tags;
+  const body = post.body.replace(/^\s+|\s+$/g, "");
+  const media = post.media.replace(/^\s+|\s+$/g, "");
+  const tags = post.tags.replace(/^\s+|\s+$/g, "");
 
   if (body == "") {
     delete post.body;

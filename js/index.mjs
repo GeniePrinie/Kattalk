@@ -61,8 +61,7 @@ switch (path) {
     break;
 
   case Pages.Edit:
-    displayEditEntry();
-    setEditFormListener();
+    displayEditEntry().then(() => setEditFormListener());
     break;
 
   case Pages.Delete:
@@ -97,10 +96,12 @@ switch (path) {
 //     console.log(error);
 //   });
 
-// updateEntry(3526, {
-//   title: "string",
-//   body: "string",
-//   tags: ["string"],
+// updateEntry(3837, {
+//   title: "Fashion woooow 2",
+//   body: "The new design is raaaad",
+//   tags: ["model", "payup", "test"],
+//   media:
+//     "https://images.unsplash.com/photo-1677678186104-f4b8256d41d4?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=687&q=80",
 // })
 //   .then((data) => {
 //     console.log(data);
