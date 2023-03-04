@@ -17,89 +17,62 @@ export function displayPostEntry() {
   renderCreateEntry();
 }
 
-export function searchAllPosts(posts) {
-  const userSearch = document.querySelector(".search");
-
-  userSearch.onkeyup = function (event) {
-    const searchValue = event.target.value.trim().toLowerCase();
-
-    const filteredAllPosts = posts.filter((post) => {
-      if (post.title.toLowerCase().includes(searchValue)) {
-        return true;
-      }
-
-      if (post.body.toLowerCase().includes(searchValue)) {
-        return true;
-      }
-
-      if (post.tags.toLowerCase().includes(searchValue)) {
-        return true;
-      }
-
-      if (post.author.toLowerCase().includes(searchValue)) {
-        return true;
-      }
-    });
-
-    renderAllPosts(filteredAllPosts);
-  };
-}
-
 export function displayEntries() {
   getEntries()
     .then((entries) => {
-      for (let i = 0; i < 10; i++) {
-        const entry = entries[i];
-        const postData = {
-          title: entry.title,
-          body: entry.body,
-          tags: entry.tags,
-          media: entry.media,
-          reactions: entry.reactions,
-          comments: entry.comments,
-          created: entry.created,
-          id: entry.id,
-          author: entry.author,
-          count: entry._count,
-        };
-        renderAllPosts(postData);
-      }
-      const userSearch = document.querySelector(".search");
-
-      userSearch.onkeyup = function (event) {
-        const searchValue = event.target.value.trim().toLowerCase();
-        const apiEntries = document.querySelector(".api-entries");
-        apiEntries.innerHTML = "";
-
-        const filteredEntries = entries.filter((entry) => {
-          if (entry.title && entry.title.toLowerCase().includes(searchValue)) {
-            return true;
-          }
-        });
-
-        for (let i = 0; i < 10; i++) {
-          const entry = filteredEntries[i];
-          const postData = {
-            title: entry.title,
-            body: entry.body,
-            tags: entry.tags,
-            media: entry.media,
-            reactions: entry.reactions,
-            comments: entry.comments,
-            created: entry.created,
-            id: entry.id,
-            author: entry.author,
-            count: entry._count,
-          };
-          renderAllPosts(postData);
-        }
-      };
+      renderAllPosts(entries);
     })
-
     .catch((error) => {
       console.log(error);
     });
 }
+
+// for (let i = 0; i < 10; i++) {
+//   const entry = entries[i];
+//   const postData = {
+//     title: entry.title,
+//     body: entry.body,
+//     tags: entry.tags,
+//     media: entry.media,
+//     reactions: entry.reactions,
+//     comments: entry.comments,
+//     created: entry.created,
+//     id: entry.id,
+//     author: entry.author,
+//     count: entry._count,
+//   };
+//   renderAllPosts(postData);
+// }
+// const userSearch = document.querySelector(".search");
+
+// userSearch.onkeyup = function (event) {
+//   const searchValue = event.target.value.trim().toLowerCase();
+//   const apiEntries = document.querySelector(".api-entries");
+//   apiEntries.innerHTML = "";
+
+//   const filteredEntries = entries.filter((entry) => {
+//     if (entry.title && entry.title.toLowerCase().includes(searchValue)) {
+//       return true;
+//     }
+//   });
+
+//   for (let i = 0; i < 10; i++) {
+//     const entry = filteredEntries[i];
+//     const postData = {
+//       title: entry.title,
+//       body: entry.body,
+//       tags: entry.tags,
+//       media: entry.media,
+//       reactions: entry.reactions,
+//       comments: entry.comments,
+//       created: entry.created,
+//       id: entry.id,
+//       author: entry.author,
+//       count: entry._count,
+//     };
+//     renderAllPosts(postData);
+//   }
+// };
 
 export function setCreateFormListener() {
   const formCreatePost = document.querySelector(".form-create-post");
