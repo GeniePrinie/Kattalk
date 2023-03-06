@@ -2,8 +2,15 @@ import { isValidUrl } from "../../shared/validURL.mjs";
 import { load } from "../../shared/storage.mjs";
 import { DEFAULT_AVATAR } from "../../shared/constants.mjs";
 
-export function renderAllPosts(entries) {
+export function renderPosts(entries) {
   const apiEntries = document.querySelector(".api-entries");
+
+  if (entries.length == 0) {
+    apiEntries.innerHTML = "No entries!"; // Add design!
+    return;
+  }
+  apiEntries.innerHTML = "";
+
   entries.forEach((rawEntry) => {
     const entry = cleanEntryParameters(rawEntry);
 

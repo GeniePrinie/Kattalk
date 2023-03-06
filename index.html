@@ -46,16 +46,16 @@
                 type="search"
                 name="search"
                 id="search"
-                placeholder="&#xF002;  Search"
+                placeholder="&#xF002;  Search title"
                 style="font-family: Arial, FontAwesome"
                 aria-label="Search"
               />
             </div>
           </div>
 
-          <!-- FILTER AND ALL POSTS -->
+          <!-- Filter & posts -->
           <div class="d-sm-flex justify-content-center">
-            <!-- FILTER -->
+            <!-- Filter -->
             <div class="me-sm-2">
               <div
                 id="filter"
@@ -64,36 +64,34 @@
                 <div class="border-bottom h5 text-uppercase">Filter</div>
                 <div>
                   <div class="my-1">
-                    <label
-                      >Today's posts
-                      <input type="checkbox" />
+                    <label>
+                      Today's posts <input type="checkbox" id="todays-posts" />
+                    </label>
+                  </div>
+
+                  <div class="my-1">
+                    <label>
+                      This week's posts
+                      <input type="checkbox" id="week-posts" />
+                    </label>
+                  </div>
+
+                  <div class="my-1">
+                    <label>
+                      Posts with media
+                      <input type="checkbox" id="media-posts" />
                     </label>
                   </div>
 
                   <div class="my-1">
                     <label
-                      >This week's posts
-                      <input type="checkbox" />
-                    </label>
-                  </div>
-
-                  <div class="my-1">
-                    <label
-                      >Posts with media
-                      <input type="checkbox" />
-                    </label>
-                  </div>
-
-                  <div class="my-1">
-                    <label
-                      >Posts with Tags
-                      <input type="checkbox" />
+                      >Posts with Tags <input type="checkbox" id="tags-posts" />
                     </label>
                   </div>
                 </div>
               </div>
             </div>
-            <!-- ALL POST -->
+            <!-- Show entries -->
             <div class="api-entries"></div>
           </div>
         </div>

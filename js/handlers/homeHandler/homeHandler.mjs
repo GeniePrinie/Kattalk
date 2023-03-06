@@ -1,5 +1,7 @@
 import { getEntries, createEntry } from "../../controllers/entryController.mjs";
-import { renderAllPosts } from "./renderAllPosts.mjs";
+import { renderPosts } from "./renderPosts.mjs";
+import { searchPosts } from "./searchPosts.mjs";
+import { filterPosts } from "./filterPosts.mjs";
 import { renderCreateEntry } from "./renderCreateEntry.mjs";
 import { load } from "../../shared/storage.mjs";
 import { redirectToHome, redirectToLogin } from "../../shared/redirect.mjs";
@@ -20,7 +22,9 @@ export function displayPostEntry() {
 export function displayEntries() {
   getEntries()
     .then((entries) => {
-      renderAllPosts(entries);
+      renderPosts(entries);
+      searchPosts(entries);
+      filterPosts(entries);
     })
     .catch((error) => {
       console.log(error);
@@ -48,7 +52,7 @@ export function displayEntries() {
 // userSearch.onkeyup = function (event) {
 //   const searchValue = event.target.value.trim().toLowerCase();
 //   const apiEntries = document.querySelector(".api-entries");
-//   apiEntries.innerHTML = "";
+//   apiEntries.innerHTML = "";      3xc
 
 //   const filteredEntries = entries.filter((entry) => {
 //     if (entry.title && entry.title.toLowerCase().includes(searchValue)) {
