@@ -7,70 +7,60 @@ const mediaPosts = document.getElementById("media-posts");
 const tagsPosts = document.getElementById("tags-posts");
 
 export function filterPosts(entries) {
-  filterTodaysPosts(todaysPosts, entries);
-  filterWeeksPosts(weekPosts, entries);
-  filterMediaPosts(mediaPosts, entries);
-  filterTagsPosts(tagsPosts, entries);
+  filterByParameter(todaysPosts, entries);
+  filterByParameter(weekPosts, entries);
+  filterByParameter(mediaPosts, entries);
+  filterByParameter(tagsPosts, entries);
 }
 
-function filterTodaysPosts(checkbox, entries) {
+function filterByParameter(checkbox, entries) {
   checkbox.addEventListener("click", () => {
     if (checkbox.checked == true) {
-      const filteredEntries = entries.filter((entry) => {
+      renderPosts(getFilteredEntries(checkbox.name, entries));
+    } else {
+      renderPosts(entries);
+    }
+  });
+}
+
+function getFilteredEntries(filterBy, entries) {
+  let filteredEntries = [];
+
+  switch (filterBy) {
+    case "todaysPosts":
+      filteredEntries = entries.filter((entry) => {
         if (isToday(new Date(entry.created))) {
           return true;
         }
       });
-      renderPosts(filteredEntries);
-    } else {
-      renderPosts(entries);
-    }
-  });
-}
-
-function filterWeeksPosts(checkbox, entries) {
-  checkbox.addEventListener("click", () => {
-    if (checkbox.checked == true) {
-      const filteredEntries = entries.filter((entry) => {
+      break;
+    case "weekPosts":
+      filteredEntries = entries.filter((entry) => {
         if (thisWeek(new Date(entry.created))) {
           return true;
         }
       });
-      renderPosts(filteredEntries);
-    } else {
-      renderPosts(entries);
-    }
-  });
-}
-
-function filterMediaPosts(checkbox, entries) {
-  checkbox.addEventListener("click", () => {
-    if (checkbox.checked == true) {
-      const filteredEntries = entries.filter((entry) => {
+      break;
+    case "mediaPosts":
+      filteredEntries = entries.filter((entry) => {
         if (isValidUrl(entry.media)) {
           return true;
         }
       });
-      renderPosts(filteredEntries);
-    } else {
-      renderPosts(entries);
-    }
-  });
-}
-
-function filterTagsPosts(checkbox, entries) {
-  checkbox.addEventListener("click", () => {
-    if (checkbox.checked == true) {
-      const filteredEntries = entries.filter((entry) => {
+      break;
+    case "tagsPosts":
+      filteredEntries = entries.filter((entry) => {
         if (entry.tags.length != 0) {
           return true;
         }
       });
-      renderPosts(filteredEntries);
-    } else {
-      renderPosts(entries);
-    }
-  });
+      break;
+    default:
+      filteredEntries = entries;
+      break;
+  }
+
+  return filteredEntries;
 }
 
 function isToday(someDate) {
@@ -83,16 +73,7 @@ function isToday(someDate) {
 }
 
 function thisWeek(someDate) {
-  const today = new Date();
-  return (
-    someDate.getDate() == today.getDate() &&
-    someDate.getMonth() == today.getMonth() &&
-    someDate.getFullYear() == today.getFullYear()
-  );
+  let lastWeek = new Date();
+  lastWeek.setDate(lastWeek.getDate() - 7);
+  return someDate >= lastWeek;
 }
-
-// const filteredEntries = entries.filter((entry) => {
-//   if (entry.title.toLowerCase().includes(searchValue)) {
-//     return true;
-//   }
-// });
