@@ -1,24 +1,24 @@
 import { isValidUrl } from "../../shared/validURL.mjs";
-import { renderPosts } from "./renderPosts.mjs";
+import { renderEntries } from "./renderEntries.mjs";
 
-const todaysPosts = document.getElementById("todays-posts");
-const weekPosts = document.getElementById("week-posts");
-const mediaPosts = document.getElementById("media-posts");
-const tagsPosts = document.getElementById("tags-posts");
+const todaysEntries = document.getElementById("todays-entries");
+const weekEntries = document.getElementById("week-entries");
+const mediaEntries = document.getElementById("media-entries");
+const tagsEntries = document.getElementById("tags-entries");
 
-export function filterPosts(entries) {
-  filterByParameter(todaysPosts, entries);
-  filterByParameter(weekPosts, entries);
-  filterByParameter(mediaPosts, entries);
-  filterByParameter(tagsPosts, entries);
+export function filterEntries(entries) {
+  filterByParameter(todaysEntries, entries);
+  filterByParameter(weekEntries, entries);
+  filterByParameter(mediaEntries, entries);
+  filterByParameter(tagsEntries, entries);
 }
 
 function filterByParameter(checkbox, entries) {
   checkbox.addEventListener("click", () => {
     if (checkbox.checked == true) {
-      renderPosts(getFilteredEntries(checkbox.name, entries));
+      renderEntries(getFilteredEntries(checkbox.name, entries));
     } else {
-      renderPosts(entries);
+      renderEntries(entries);
     }
   });
 }
@@ -27,28 +27,28 @@ function getFilteredEntries(filterBy, entries) {
   let filteredEntries = [];
 
   switch (filterBy) {
-    case "todaysPosts":
+    case "todaysEntries":
       filteredEntries = entries.filter((entry) => {
         if (isToday(new Date(entry.created))) {
           return true;
         }
       });
       break;
-    case "weekPosts":
+    case "weekEntries":
       filteredEntries = entries.filter((entry) => {
         if (thisWeek(new Date(entry.created))) {
           return true;
         }
       });
       break;
-    case "mediaPosts":
+    case "mediaEntries":
       filteredEntries = entries.filter((entry) => {
         if (isValidUrl(entry.media)) {
           return true;
         }
       });
       break;
-    case "tagsPosts":
+    case "tagsEntries":
       filteredEntries = entries.filter((entry) => {
         if (entry.tags.length != 0) {
           return true;

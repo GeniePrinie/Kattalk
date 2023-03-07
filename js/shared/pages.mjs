@@ -5,7 +5,7 @@ export const Pages = {
   Logout: "/html/user/logout/",
   Register: "/html/user/register/",
   Profile: "/html/user/profile/",
-  Details: "/html/post/details/",
-  Edit: "/html/post/edit/",
-  Delete: "/html/post/delete/",
+  Details: "/html/entry/details/",
+  Edit: "/html/entry/edit/",
+  Delete: "/html/entry/delete/",
 };

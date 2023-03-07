@@ -1,7 +1,7 @@
 import { getEntries, createEntry } from "../../controllers/entryController.mjs";
-import { renderPosts } from "./renderPosts.mjs";
-import { searchPosts } from "./searchPosts.mjs";
-import { filterPosts } from "./filterPosts.mjs";
+import { renderEntries } from "./renderEntries.mjs";
+import { searchEntries } from "./searchEntries.mjs";
+import { filterEntries } from "./filterEntries.mjs";
 import { renderCreateEntry } from "./renderCreateEntry.mjs";
 import { load } from "../../shared/storage.mjs";
 import { redirectToHome, redirectToLogin } from "../../shared/redirect.mjs";
@@ -31,9 +31,9 @@ export function displayPostEntry() {
 export function displayEntries() {
   getEntries()
     .then((entries) => {
-      renderPosts(entries);
-      searchPosts(entries);
-      filterPosts(entries);
+      renderEntries(entries);
+      searchEntries(entries);
+      filterEntries(entries);
     })
     .catch((error) => {
       console.log(error);
@@ -44,20 +44,20 @@ export function displayEntries() {
  * Displays the post entries functionality
  */
 export function setCreateFormListener() {
-  const formCreatePost = document.querySelector(".form-create-post");
+  const formCreateEntry = document.querySelector(".form-create-entry");
 
-  if (formCreatePost) {
-    formCreatePost.addEventListener("submit", (e) => {
+  if (formCreateEntry) {
+    formCreateEntry.addEventListener("submit", (e) => {
       e.preventDefault();
 
       const form = e.target;
       const formData = new FormData(form);
-      const postData = Object.fromEntries(formData.entries());
-      const post = restructureUserInput(postData);
+      const entryData = Object.fromEntries(formData.entries());
+      const entryDataFixed = restructureUserInput(entryData);
 
-      createEntry(post)
-        .then((post) => {
-          handleSuccessful(post);
+      createEntry(entryDataFixed)
+        .then((entry) => {
+          handleSuccessful(entry);
         })
         .catch((error) => {
           handleUnsuccessful(error);
@@ -93,14 +93,14 @@ function restructureUserInput(entry) {
   return entry;
 }
 
-function handleSuccessful(post) {
-  createModal(`Post named: <b>${post.title}</b> successfully created.`);
-  const clearForm = document.querySelector(".modal-close-post");
+function handleSuccessful(entry) {
+  createModal(`Entry named: <b>${entry.title}</b> successfully created.`);
+  const clearForm = document.querySelector(".modal-close-entry");
   clearForm.addEventListener("click", redirectToHome);
 }
 
 function handleUnsuccessful(error) {
   createModal(
-    `<b>Post not created.</b> <br>Error message: <em>${error.message}</em>.`
+    `<b>Entry not created.</b> <br>Error message: <em>${error.message}</em>.`
   );
 }

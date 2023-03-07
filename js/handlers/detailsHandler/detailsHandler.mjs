@@ -1,5 +1,5 @@
 import { getEntry } from "../../controllers/entryController.mjs";
-import { renderSpecificPost } from "./renderSpecificPost.mjs";
+import { renderSpecificEntry } from "./renderSpecificEntry.mjs";
 
 const queryString = document.location.search;
 const params = new URLSearchParams(queryString);
@@ -8,7 +8,7 @@ const id = params.get("id");
 export function displayEntry() {
   getEntry(id)
     .then((entry) => {
-      const postData = {
+      const entryData = {
         title: entry.title,
         body: entry.body,
         tags: entry.tags,
@@ -20,7 +20,7 @@ export function displayEntry() {
         author: entry.author,
         count: entry._count,
       };
-      renderSpecificPost(postData);
+      renderSpecificEntry(entryData);
     })
     .catch((error) => {
       console.log(error);

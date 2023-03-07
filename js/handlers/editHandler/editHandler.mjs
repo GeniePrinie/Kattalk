@@ -1,5 +1,5 @@
 import { getEntry, updateEntry } from "../../controllers/entryController.mjs";
-import { renderEditPost } from "./renderEditPost.mjs";
+import { renderEditEntry } from "./renderEditEntry.mjs";
 import { redirectToHome } from "../../shared/redirect.mjs";
 import { createModal } from "../../shared/modal.mjs";
 
@@ -10,14 +10,14 @@ const id = params.get("id");
 export async function displayEditEntry() {
   await getEntry(id)
     .then((entry) => {
-      const postData = {
+      const entryData = {
         title: entry.title,
         body: entry.body,
         tags: entry.tags,
         media: entry.media,
         author: entry.author,
       };
-      renderEditPost(postData);
+      renderEditEntry(entryData);
     })
     .catch((error) => {
       console.log(error);
@@ -25,20 +25,20 @@ export async function displayEditEntry() {
 }
 
 export function setEditFormListener() {
-  const formEditPost = document.querySelector(".form-edit-post");
+  const formEditEntry = document.querySelector(".form-edit-entry");
 
-  if (formEditPost) {
-    formEditPost.addEventListener("submit", (e) => {
+  if (formEditEntry) {
+    formEditEntry.addEventListener("submit", (e) => {
       e.preventDefault();
 
       const form = e.target;
       const formData = new FormData(form);
-      const postData = Object.fromEntries(formData.entries());
-      const post = restructureUserInput(postData);
+      const entryData = Object.fromEntries(formData.entries());
+      const entryDataFixed = restructureUserInput(entryData);
 
-      updateEntry(id, post)
-        .then((post) => {
-          handleSuccessful(post);
+      updateEntry(id, entryDataFixed)
+        .then((entry) => {
+          handleSuccessful(entry);
         })
         .catch((error) => {
           handleUnsuccessful(error);
@@ -47,36 +47,36 @@ export function setEditFormListener() {
   }
 }
 
-function restructureUserInput(post) {
-  const body = post.body.replace(/^\s+|\s+$/g, "");
-  const media = post.media.replace(/^\s+|\s+$/g, "");
-  const tags = post.tags.replace(/^\s+|\s+$/g, "");
+function restructureUserInput(entry) {
+  const body = entry.body.replace(/^\s+|\s+$/g, "");
+  const media = entry.media.replace(/^\s+|\s+$/g, "");
+  const tags = entry.tags.replace(/^\s+|\s+$/g, "");
 
   if (body == "") {
-    delete post.body;
+    delete entry.body;
   }
 
   if (media == "") {
-    delete post.media;
+    delete entry.media;
   }
 
   if (tags == "") {
-    delete post.tags;
+    delete entry.tags;
   } else {
-    post.tags = tags.toString().replace(/ /g, "").split(",");
+    entry.tags = tags.toString().replace(/ /g, "").split(",");
   }
 
-  return post;
+  return entry;
 }
 
-function handleSuccessful(post) {
-  createModal(`Post named: <b>${post.title}</b> successfully updated.`);
-  const clearForm = document.querySelector(".modal-close-post");
+function handleSuccessful(entry) {
+  createModal(`Entry named: <b>${entry.title}</b> successfully updated.`);
+  const clearForm = document.querySelector(".modal-close-entry");
   clearForm.addEventListener("click", redirectToHome);
 }
 
 function handleUnsuccessful(error) {
   createModal(
-    `<b>Post not updated.</b> <br>Error message: <em>${error.message}</em>.`
+    `<b>Entry not updated.</b> <br>Error message: <em>${error.message}</em>.`
   );
 }

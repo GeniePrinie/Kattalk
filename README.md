@@ -12,11 +12,11 @@ The project was to create a responsive social media application by using Bootstr
 
 #### Home page
 
-This page has a feed of posts from the user’s contacts, a search bar, and a form to create a new post.
+This page has a feed of entries from the user’s contacts, a search bar, and a form to create a new entry.
 
 #### Profile page
 
-This page has a profile image of the user, details about the user, a list of the user’s contacts, their posts and a form to post to their wall.
+This page has a profile image of the user, details about the user, a list of the user’s contacts, their entries and a form to entry to their wall.
 
 #### Login page
 

@@ -2,31 +2,37 @@ import { isValidUrl } from "../../shared/validURL.mjs";
 import { load } from "../../shared/storage.mjs";
 import { DEFAULT_AVATAR } from "../../shared/constants.mjs";
 
-const pageTitle = document.querySelector("title");
-const apiEntry = document.querySelector(".api-entry");
+export function renderEntries(entries) {
+  const apiEntries = document.querySelector(".api-entries");
 
-export function renderSpecificPost(post) {
-  const postTitle = getPostTitle(post.author, post.title);
-  const optionsMenu = getOptionsMenu(post.author, post.id);
-  const timeAndTags = getTimeAndTags(post.tags, post.created);
-  const mediaImage = getMediaImage(post.media);
-  const postBody = getPostBody(post.body);
-  const interactionCount = getInteractionCount(post.count);
-  const displayComments = getDisplayComments(post.comments);
-  const displayReactions = getDisplayReactions(post.reactions);
+  if (entries.length == 0) {
+    apiEntries.innerHTML = "No entries!"; // Add design!
+    return;
+  }
+  apiEntries.innerHTML = "";
 
-  pageTitle.innerHTML = `Kattalk | ${post.title}`;
+  entries.forEach((rawEntry) => {
+    const entry = cleanEntryParameters(rawEntry);
 
-  apiEntry.innerHTML += `
+    const entryTitle = getEntryTitle(entry.author, entry.title, entry.id);
+    const optionsMenu = getOptionsMenu(entry.author, entry.id);
+    const timeAndTags = getTimeAndTags(entry.tags, entry.created);
+    const mediaImage = getMediaImage(entry.media);
+    const entryBody = getEntryBody(entry.body);
+    const interactionCount = getInteractionCount(entry.count);
+    const displayComments = getDisplayComments(entry.comments);
+    const displayReactions = getDisplayReactions(entry.reactions);
+
+    apiEntries.innerHTML += `
   <div class="container d-flex justify-content-center">
       <div class="card card-custom mt-4 shadow-sm bg-white border-0">
           <div class="card-body pb-0">
               <div class="row">
-                  ${postTitle}
+                  ${entryTitle}
                   ${optionsMenu}
                   ${timeAndTags}
                   ${mediaImage}
-                  ${postBody}
+                  ${entryBody}
                   ${interactionCount}
                   <div class="collapse" id="collapseReaction">
                       <div class="d-flex justify-content-start">
@@ -43,16 +49,49 @@ export function renderSpecificPost(post) {
           </div>
       </div>
   </div>`;
+  });
 }
 
-function getPostTitle(author, title) {
-  const authorName = author.name;
-  const authorAvatar = isValidUrl(author.avatar)
-    ? author.avatar
+function cleanEntryParameters(entry) {
+  let tags = "";
+  if (entry.tags != "") {
+    const seperatedTags = entry.tags.toString().replace(/ /g, "").split(",");
+    seperatedTags.forEach((tag) => {
+      tags += `#${tag} `;
+    });
+  }
+  entry.body = entry.body == null ? "" : entry.body;
+  entry.media = isValidUrl(entry.media) ? entry.media : "";
+
+  entry.comments.forEach((comment) => {
+    comment.author.avatar = isValidUrl(comment.author.avatar)
+      ? comment.author.avatar
+      : DEFAULT_AVATAR;
+  });
+
+  entry.author.avatar = isValidUrl(entry.author.avatar)
+    ? entry.author.avatar
     : DEFAULT_AVATAR;
 
-  return `<img class="col-2 col-sm-2 rounded img-user m-0 mb-3" src="${authorAvatar}" alt="${authorName}"/>
-            <h2 class="fs-5 col">${title} <small><em>written by</em> ${authorName}</small></h2>`;
+  return {
+    title: entry.title,
+    body: entry.body,
+    tags: tags,
+    media: entry.media,
+    reactions: entry.reactions,
+    comments: entry.comments,
+    created: entry.created,
+    id: entry.id,
+    author: entry.author,
+    count: entry._count,
+  };
+}
+
+function getEntryTitle(author, title, id) {
+  return `<img class="col-2 col-sm-2 rounded img-user m-0 mb-3" src="${author.avatar}" alt="${author.name}"/>
+          <a href="/html/entry/details/?id=${id}" class="card-title col m-0 pt-3 text-decoration-none text-black">
+            <h2 class="fs-5 col">${title} <small><em>written by</em> ${author.name}</small></h2>
+          </a>`;
 }
 
 function getOptionsMenu(author, id) {
@@ -65,9 +104,9 @@ function getOptionsMenu(author, id) {
                         <i class="fa-solid fa-ellipsis-vertical"></i>
                     </a>
                     <div class="dropdown-menu dots-edit" aria-labelledby="navbarDropdown">
-                        <button class="dropdown-item"><a href="/html/post/edit/?id=${id}" class="text-decoration-none text-black">Edit</a></button>
+                        <button class="dropdown-item"><a href="/html/entry/edit/?id=${id}" class="text-decoration-none text-black">Edit</a></button>
                         <div class="dropdown-divider"></div>
-                        <button class="dropdown-item"><a href="/html/post/delete/?id=${id}" class="text-decoration-none text-black">Delete</a></button>
+                        <button class="dropdown-item"><a href="/html/entry/delete/?id=${id}" class="text-decoration-none text-black">Delete</a></button>
                     </div>
                 </li>
             </ul>`;
@@ -76,28 +115,18 @@ function getOptionsMenu(author, id) {
 }
 
 function getTimeAndTags(tags, timestamp) {
-  let hashtags = "";
-  if (tags != "") {
-    const seperatedTags = tags.toString().replace(/ /g, "").split(",");
-    seperatedTags.forEach((tag) => {
-      hashtags += `#${tag} `;
-    });
-  }
-
   return `<div class="d-flex justify-content-between">
-            <em class="fs-6"><small>${hashtags}</small></em>
+            <em class="fs-6"><small>${tags}</small></em>
             <small>${timestamp}</small>
         </div>`;
 }
 
 function getMediaImage(media) {
-  const photo = isValidUrl(media) ? media : "";
-
-  return `<img src="${photo}" alt="${photo}" class="card-img mt-4" />`;
+  return `<img src="${media}" alt="${media}" class="card-img mt-4" />`;
 }
 
-function getPostBody(body) {
-  return body == null ? "" : `<div class="card-text pt-3">${body}</div>`;
+function getEntryBody(body) {
+  return `<div class="card-text pt-3">${body}</div>`;
 }
 
 function getInteractionCount(count) {
@@ -114,15 +143,10 @@ function getInteractionCount(count) {
 function getDisplayComments(comments) {
   let buildCommentSection = "";
   comments.forEach((comment) => {
-    const authorName = comment.author.name;
-    const authorAvatar = isValidUrl(comment.author.avatar)
-      ? comment.author.avatar
-      : DEFAULT_AVATAR;
-
     buildCommentSection += `
         <div class="comment row border-bottom mt-2">
-            <img class="col-2 col-sm-2 img-user m-0 mb-3 img-comment" src="${authorAvatar}" alt="${authorName}"/>
-            <h3 class="card-title col fs-5 m-0 pt-1"><small>${authorName}</small></h3>
+            <img class="col-2 col-sm-2 img-user m-0 mb-3 img-comment" src="${comment.author.avatar}" alt="${comment.author.name}"/>
+            <h3 class="card-title col fs-5 m-0 pt-1"><small>${comment.author.name}</small></h3>
             <small class="pb-1">${comment.created}</small>
             <p>${comment.body}</p>
         </div>`;

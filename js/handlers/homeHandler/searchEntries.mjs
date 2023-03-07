@@ -1,6 +1,6 @@
-import { renderPosts } from "./renderPosts.mjs";
+import { renderEntries } from "./renderEntries.mjs";
 
-export function searchPosts(entries) {
+export function searchEntries(entries) {
   const userSearch = document.querySelector(".search");
 
   userSearch.onkeyup = function (event) {
@@ -12,7 +12,7 @@ export function searchPosts(entries) {
       }
     });
 
-    renderPosts(filteredEntries);
+    renderEntries(filteredEntries);
     return filteredEntries;
   };
 }
