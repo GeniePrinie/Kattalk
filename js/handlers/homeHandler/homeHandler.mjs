@@ -3,9 +3,9 @@ import { renderEntries } from "./renderEntries.mjs";
 import { searchEntries } from "./searchEntries.mjs";
 import { filterEntries } from "./filterEntries.mjs";
 import { renderCreateEntry } from "./renderCreateEntry.mjs";
-import { load } from "../../shared/storage.mjs";
 import { redirectToHome, redirectToLogin } from "../../shared/redirect.mjs";
 import { createModal } from "../../shared/modal.mjs";
+import { load } from "../../shared/storage.mjs";
 
 /**
  * Checks if user is already logged in
@@ -19,14 +19,14 @@ export function checkIfLoggedIn() {
 }
 
 /**
- * Displays the post entry functionality
+ * Displays post entry
  */
 export function displayPostEntry() {
   renderCreateEntry();
 }
 
 /**
- * Displays the post entries functionality
+ * Displays all the entries
  */
 export function displayEntries() {
   getEntries()
@@ -41,7 +41,7 @@ export function displayEntries() {
 }
 
 /**
- * Displays the post entries functionality
+ * Create entry based of user input
  */
 export function setCreateFormListener() {
   const formCreateEntry = document.querySelector(".form-create-entry");
@@ -57,10 +57,16 @@ export function setCreateFormListener() {
 
       createEntry(entryDataFixed)
         .then((entry) => {
-          handleSuccessful(entry);
+          createModal(
+            `Entry named: <b>${entry.title}</b> successfully created.`
+          );
+          const clearForm = document.querySelector(".modal-close-entry");
+          clearForm.addEventListener("click", redirectToHome);
         })
         .catch((error) => {
-          handleUnsuccessful(error);
+          createModal(
+            `<b>Entry not created.</b> <br>Error message: <em>${error.message}</em>.`
+          );
         });
     });
   }
@@ -72,35 +78,19 @@ export function setCreateFormListener() {
  * @returns {object} Validated user input
  */
 function restructureUserInput(entry) {
-  const body = entry.body;
-  const media = entry.media;
-  const tags = entry.tags;
-
-  if (body == "") {
+  if (entry.body == "") {
     delete entry.body;
   }
 
-  if (media == "") {
+  if (entry.media == "") {
     delete entry.media;
   }
 
-  if (tags == "") {
+  if (entry.tags == "") {
     delete entry.tags;
   } else {
-    entry.tags = tags.toString().replace(/ /g, "").split(",");
+    entry.tags = entry.tags.toString().replace(/ /g, "").split(",");
   }
 
   return entry;
-}
-
-function handleSuccessful(entry) {
-  createModal(`Entry named: <b>${entry.title}</b> successfully created.`);
-  const clearForm = document.querySelector(".modal-close-entry");
-  clearForm.addEventListener("click", redirectToHome);
-}
-
-function handleUnsuccessful(error) {
-  createModal(
-    `<b>Entry not created.</b> <br>Error message: <em>${error.message}</em>.`
-  );
 }

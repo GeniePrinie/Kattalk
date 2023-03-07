@@ -2,11 +2,16 @@ import { isValidUrl } from "../../shared/validURL.mjs";
 import { load } from "../../shared/storage.mjs";
 import { DEFAULT_AVATAR } from "../../shared/constants.mjs";
 
-const pageTitle = document.querySelector("title");
-const apiEntry = document.querySelector(".api-entry");
+/**
+ * Renders out a specific entry to the html page
+ * @param {object} entry Entry data
+ */
+export function renderSpecificEntry(rawEntry) {
+  const pageTitle = document.querySelector("title");
+  const apiEntry = document.querySelector(".api-entry");
+  const entry = cleanEntryParameters(rawEntry);
 
-export function renderSpecificEntry(entry) {
-  const entryTitle = getEntryTitle(entry.author, entry.title);
+  const entryTitle = getEntryHeader(entry.author, entry.title);
   const optionsMenu = getOptionsMenu(entry.author, entry.id);
   const timeAndTags = getTimeAndTags(entry.tags, entry.created);
   const mediaImage = getMediaImage(entry.media);
@@ -45,16 +50,63 @@ export function renderSpecificEntry(entry) {
   </div>`;
 }
 
-function getEntryTitle(author, title) {
-  const authorName = author.name;
-  const authorAvatar = isValidUrl(author.avatar)
-    ? author.avatar
+/**
+ * Make sure the entry data is valid and set default values
+ * @param {object} entry Entry data
+ * @returns {object} Entry data without errors, and with some default values
+ */
+function cleanEntryParameters(entry) {
+  let tags = "";
+  if (entry.tags != "") {
+    const seperatedTags = entry.tags.toString().replace(/ /g, "").split(",");
+    seperatedTags.forEach((tag) => {
+      tags += `#${tag} `;
+    });
+  }
+  entry.body = entry.body == null ? "" : entry.body;
+  entry.media = isValidUrl(entry.media) ? entry.media : "";
+
+  entry.comments.forEach((comment) => {
+    comment.author.avatar = isValidUrl(comment.author.avatar)
+      ? comment.author.avatar
+      : DEFAULT_AVATAR;
+  });
+
+  entry.author.avatar = isValidUrl(entry.author.avatar)
+    ? entry.author.avatar
     : DEFAULT_AVATAR;
 
-  return `<img class="col-2 col-sm-2 rounded img-user m-0 mb-3" src="${authorAvatar}" alt="${authorName}"/>
-            <h2 class="fs-5 col">${title} <small><em>written by</em> ${authorName}</small></h2>`;
+  return {
+    title: entry.title,
+    body: entry.body,
+    tags: tags,
+    media: entry.media,
+    reactions: entry.reactions,
+    comments: entry.comments,
+    created: entry.created,
+    id: entry.id,
+    author: entry.author,
+    count: entry.count,
+  };
 }
 
+/**
+ * Creates the entry header as html code
+ * @param {object} author Author of entry
+ * @param {string} title Title of entry
+ * @returns {string} Entry header section
+ */
+function getEntryHeader(author, title) {
+  return `<img class="col-2 col-sm-2 rounded img-user m-0 mb-3" src="${author.avatar}" alt="${author.name}"/>
+            <h2 class="fs-5 col">${title} <small><em>written by</em> ${author.name}</small></h2>`;
+}
+
+/**
+ * Creates the entry options menu as html code if logged in user created it
+ * @param {object} author Author of entry
+ * @param {number} id Id of entry
+ * @returns {string} Entry options menu section
+ */
 function getOptionsMenu(author, id) {
   const userProfile = load("profile");
 
@@ -75,31 +127,42 @@ function getOptionsMenu(author, id) {
   return "";
 }
 
+/**
+ * Creates the entry tags and timestamp as html code
+ * @param {string} tags Tags of entry
+ * @param {string} timestamp Timestamp of entry
+ * @returns {string} Entry tags and timestamp section
+ */
 function getTimeAndTags(tags, timestamp) {
-  let hashtags = "";
-  if (tags != "") {
-    const seperatedTags = tags.toString().replace(/ /g, "").split(",");
-    seperatedTags.forEach((tag) => {
-      hashtags += `#${tag} `;
-    });
-  }
-
   return `<div class="d-flex justify-content-between">
-            <em class="fs-6"><small>${hashtags}</small></em>
+            <em class="fs-6"><small>${tags}</small></em>
             <small>${timestamp}</small>
         </div>`;
 }
 
+/**
+ * Creates the entry image as html code
+ * @param {string} media Media image of entry (empty if media URL not valid)
+ * @returns {string} Entry media image section
+ */
 function getMediaImage(media) {
-  const photo = isValidUrl(media) ? media : "";
-
-  return `<img src="${photo}" alt="${photo}" class="card-img mt-4" />`;
+  return `<img src="${media}" alt="${media}" class="card-img mt-4" />`;
 }
 
+/**
+ * Creates the entry body as html code
+ * @param {string} body Body of entry
+ * @returns {string} Entry body section
+ */
 function getEntryBody(body) {
-  return body == null ? "" : `<div class="card-text pt-3">${body}</div>`;
+  return `<div class="card-text pt-3">${body}</div>`;
 }
 
+/**
+ * Creates the entry overview of interactions as html code
+ * @param {object} count Count of entry reactions and comments
+ * @returns {string} Entry interactions section
+ */
 function getInteractionCount(count) {
   return `<div class="d-flex justify-content-center border-top border-bottom mt-3">
             <button class="btn m-1 col-6 align-self-center" type="button" data-toggle="collapse" data-target="#collapseReaction" aria-expanded="false" aria-controls="collapseReaction">
@@ -111,18 +174,18 @@ function getInteractionCount(count) {
         </div>`;
 }
 
+/**
+ * Creates the entry comments as html code
+ * @param {object} comments Comments of entry
+ * @returns {string} Entry comment section
+ */
 function getDisplayComments(comments) {
   let buildCommentSection = "";
   comments.forEach((comment) => {
-    const authorName = comment.author.name;
-    const authorAvatar = isValidUrl(comment.author.avatar)
-      ? comment.author.avatar
-      : DEFAULT_AVATAR;
-
     buildCommentSection += `
         <div class="comment row border-bottom mt-2">
-            <img class="col-2 col-sm-2 img-user m-0 mb-3 img-comment" src="${authorAvatar}" alt="${authorName}"/>
-            <h3 class="card-title col fs-5 m-0 pt-1"><small>${authorName}</small></h3>
+            <img class="col-2 col-sm-2 img-user m-0 mb-3 img-comment" src="${comment.author.avatar}" alt="${comment.author.name}"/>
+            <h3 class="card-title col fs-5 m-0 pt-1"><small>${comment.author.name}</small></h3>
             <small class="pb-1">${comment.created}</small>
             <p>${comment.body}</p>
         </div>`;
@@ -130,6 +193,11 @@ function getDisplayComments(comments) {
   return buildCommentSection;
 }
 
+/**
+ * Creates the entry reactions as html code
+ * @param {object} comments Reactions of entry
+ * @returns {string} Entry reaction section
+ */
 function getDisplayReactions(reactions) {
   let buildReactionSection = "";
   reactions.forEach((reaction) => {

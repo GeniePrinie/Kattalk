@@ -2,9 +2,12 @@ import { createModal } from "../../shared/modal.mjs";
 import { redirectToLogin } from "../../shared/redirect.mjs";
 import { register } from "../../controllers/userController.mjs";
 
-const formNewAccount = document.querySelector(".form-register");
-
+/**
+ * Register a new account based of user input
+ */
 export function setRegisterFormListener() {
+  const formNewAccount = document.querySelector(".form-register");
+
   if (formNewAccount) {
     formNewAccount.addEventListener("submit", (e) => {
       e.preventDefault();
@@ -17,23 +20,15 @@ export function setRegisterFormListener() {
 
       register(profile)
         .then((user) => {
-          handleSuccessful(user);
+          createModal(`User for <b>${user.name}</b> created successfully.`);
+          const clearForm = document.querySelector(".modal-close-register");
+          clearForm.addEventListener("click", redirectToLogin);
         })
         .catch((error) => {
-          handleUnsuccessful(error);
+          createModal(
+            `User not created. <br>Error message: <em>${error.message}</em>.`
+          );
         });
     });
   }
-}
-
-function handleSuccessful(user) {
-  createModal(`User for <b>${user.name}</b> created successfully.`);
-  const clearForm = document.querySelector(".modal-close-register");
-  clearForm.addEventListener("click", redirectToLogin);
-}
-
-function handleUnsuccessful(error) {
-  createModal(
-    `User not created. <br>Error message: <em>${error.message}</em>.`
-  );
 }

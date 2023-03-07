@@ -1,11 +1,14 @@
 import { getEntry } from "../../controllers/entryController.mjs";
 import { renderSpecificEntry } from "./renderSpecificEntry.mjs";
 
-const queryString = document.location.search;
-const params = new URLSearchParams(queryString);
-const id = params.get("id");
-
+/**
+ * Displays entry based of URL parameter (id) on current page
+ */
 export function displayEntry() {
+  const queryString = document.location.search;
+  const params = new URLSearchParams(queryString);
+  const id = params.get("id");
+
   getEntry(id)
     .then((entry) => {
       const entryData = {

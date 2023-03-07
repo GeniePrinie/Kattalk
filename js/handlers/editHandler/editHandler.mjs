@@ -3,11 +3,14 @@ import { renderEditEntry } from "./renderEditEntry.mjs";
 import { redirectToHome } from "../../shared/redirect.mjs";
 import { createModal } from "../../shared/modal.mjs";
 
-const queryString = document.location.search;
-const params = new URLSearchParams(queryString);
-const id = params.get("id");
-
+/**
+ * Displays edit entry based of URL parameter (id) on current page
+ */
 export async function displayEditEntry() {
+  const queryString = document.location.search;
+  const params = new URLSearchParams(queryString);
+  const id = params.get("id");
+
   await getEntry(id)
     .then((entry) => {
       const entryData = {
@@ -24,7 +27,13 @@ export async function displayEditEntry() {
     });
 }
 
+/**
+ * Edits entry based of URL parameter (id) on current page when triggered by user
+ */
 export function setEditFormListener() {
+  const queryString = document.location.search;
+  const params = new URLSearchParams(queryString);
+  const id = params.get("id");
   const formEditEntry = document.querySelector(".form-edit-entry");
 
   if (formEditEntry) {
@@ -38,15 +47,26 @@ export function setEditFormListener() {
 
       updateEntry(id, entryDataFixed)
         .then((entry) => {
-          handleSuccessful(entry);
+          createModal(
+            `Entry named: <b>${entry.title}</b> successfully updated.`
+          );
+          const clearForm = document.querySelector(".modal-close-entry");
+          clearForm.addEventListener("click", redirectToHome);
         })
         .catch((error) => {
-          handleUnsuccessful(error);
+          createModal(
+            `<b>Entry not updated.</b> <br>Error message: <em>${error.message}</em>.`
+          );
         });
     });
   }
 }
 
+/**
+ * Removes parameters from entry if user did not fill them out
+ * @param {object} entry Input data from user to edit entry
+ * @returns {object} Validated user input
+ */
 function restructureUserInput(entry) {
   const body = entry.body.replace(/^\s+|\s+$/g, "");
   const media = entry.media.replace(/^\s+|\s+$/g, "");
@@ -67,16 +87,4 @@ function restructureUserInput(entry) {
   }
 
   return entry;
-}
-
-function handleSuccessful(entry) {
-  createModal(`Entry named: <b>${entry.title}</b> successfully updated.`);
-  const clearForm = document.querySelector(".modal-close-entry");
-  clearForm.addEventListener("click", redirectToHome);
-}
-
-function handleUnsuccessful(error) {
-  createModal(
-    `<b>Entry not updated.</b> <br>Error message: <em>${error.message}</em>.`
-  );
 }

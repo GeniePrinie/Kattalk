@@ -2,10 +2,14 @@ import { DEFAULT_AVATAR } from "../../shared/constants.mjs";
 import { load } from "../../shared/storage.mjs";
 import { isValidUrl } from "../../shared/validURL.mjs";
 
-const apiCreateEntry = document.querySelector(".api-create-entry");
-
+/**
+ * Renders out create entry to the html page
+ * @param {object} entry Entry data
+ */
 export function renderCreateEntry() {
+  const apiCreateEntry = document.querySelector(".api-create-entry");
   const profile = load("profile");
+
   const createHeader = getCreateHeader(profile.name, profile.avatar);
   const createTitleInput = getCreateTitleInput();
   const createBodyInput = getCreateBodyInput();
@@ -34,6 +38,12 @@ export function renderCreateEntry() {
   </div>`;
 }
 
+/**
+ * Creates the create entry header as html code
+ * @param {string} name Name of the entry author
+ * @param {string} avatar Avatar of the entry author
+ * @returns {string} Create entry header section
+ */
 function getCreateHeader(name, avatar) {
   const authorAvatar = isValidUrl(avatar) ? avatar : DEFAULT_AVATAR;
 
@@ -49,6 +59,10 @@ function getCreateHeader(name, avatar) {
   </div>`;
 }
 
+/**
+ * Creates the create entry title as html code
+ * @returns {string} Create entry title section
+ */
 function getCreateTitleInput() {
   return `
   <input 
@@ -62,6 +76,10 @@ function getCreateTitleInput() {
   />`;
 }
 
+/**
+ * Creates the create entry body as html code
+ * @returns {string} Create entry body section
+ */
 function getCreateBodyInput() {
   return `
   <textarea
@@ -75,6 +93,10 @@ function getCreateBodyInput() {
   </textarea>`;
 }
 
+/**
+ * Creates the create entry tags as html code
+ * @returns {string} Create entry tags section
+ */
 function getCreateTagsInput() {
   return `
   <input
@@ -87,6 +109,10 @@ function getCreateTagsInput() {
   />`;
 }
 
+/**
+ * Creates the create entry media as html code
+ * @returns {string} Create entry media section
+ */
 function getCreateMediaInput() {
   return `
   <input
@@ -99,6 +125,10 @@ function getCreateMediaInput() {
   />`;
 }
 
+/**
+ * Creates the create entry submit button as html code
+ * @returns {string} Create entry submit button section
+ */
 function getEntryButton() {
   return `
   <button 

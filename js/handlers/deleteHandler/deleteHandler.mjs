@@ -1,11 +1,14 @@
 import { removeEntry } from "../../controllers/entryController.mjs";
 import { redirectToHome } from "../../shared/redirect.mjs";
 
-const queryString = document.location.search;
-const params = new URLSearchParams(queryString);
-const id = params.get("id");
-
+/**
+ * Deletes entry based of URL parameter (id) on current page
+ */
 export function deleteEntry() {
+  const queryString = document.location.search;
+  const params = new URLSearchParams(queryString);
+  const id = params.get("id");
+
   removeEntry(id)
     .then((httpStatus) => {
       if (httpStatus == "204") {
@@ -15,5 +18,4 @@ export function deleteEntry() {
     .catch((error) => {
       console.log(error);
     });
-  //
 }

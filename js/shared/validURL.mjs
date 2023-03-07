@@ -1,3 +1,8 @@
+/**
+ * Checks if an input string is a valid URL
+ * @param {string} urlString Input string
+ * @returns {boolean} If input string is valid URL
+ */
 export function isValidUrl(urlString) {
   var urlPattern = new RegExp(
     "^(https?:\\/\\/)?" + // validate protocol

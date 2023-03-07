@@ -2,6 +2,11 @@ import { API_SOCIAL_URL } from "../shared/constants.mjs";
 import { save, remove } from "../shared/storage.mjs";
 import { fetchRequestWithoutToken } from "../shared/api.mjs";
 
+/**
+ * Creates a new user by using a POST api request
+ * @param {object} profile User profile
+ * @returns {Promise} Response data from api
+ */
 export async function register(profile) {
   const apiEndpoint = API_SOCIAL_URL + "/auth/register";
   const apiMethod = "POST";
@@ -20,6 +25,10 @@ export async function register(profile) {
   return await response.json();
 }
 
+/**
+ * Gets a bearer token by using a POST api request and saves it in local storage
+ * @param {object} profile User profile
+ */
 export async function login(profile) {
   const apiEndpoint = API_SOCIAL_URL + "/auth/login";
   const apiMethod = "POST";
@@ -45,6 +54,9 @@ export async function login(profile) {
   // userOwner.innerHTML += `${userName}`;
 }
 
+/**
+ * Clears the local storage of bearer token and user profile
+ */
 export async function logout() {
   remove("token");
   remove("profile");

@@ -1,10 +1,11 @@
+import { redirectToHome } from "../../shared/redirect.mjs";
 import { createModal } from "../../shared/modal.mjs";
 import { login } from "../../controllers/userController.mjs";
 import { load } from "../../shared/storage.mjs";
-import { redirectToHome } from "../../shared/redirect.mjs";
 
-const formLogin = document.querySelector(".form-login");
-
+/**
+ * Redirect to home if bearer token already exists
+ */
 export function checkIfLoggedOut() {
   const token = load("token");
 
@@ -13,7 +14,12 @@ export function checkIfLoggedOut() {
   }
 }
 
+/**
+ * Log user into application based of user input
+ */
 export function setLoginFormListener() {
+  const formLogin = document.querySelector(".form-login");
+
   if (formLogin) {
     formLogin.addEventListener("submit", (e) => {
       e.preventDefault();
@@ -26,22 +32,14 @@ export function setLoginFormListener() {
 
       login(profile)
         .then(() => {
-          handleSuccessful();
+          createModal(`Successful login.`);
+          redirectToHome();
         })
         .catch((error) => {
-          handleUnsuccessful(error);
+          createModal(
+            `Invalid user credentials. <br>Error message: <em>${error.message}</em>.`
+          );
         });
     });
   }
-}
-
-function handleSuccessful() {
-  createModal(`Successful login.`);
-  redirectToHome();
-}
-
-function handleUnsuccessful(error) {
-  createModal(
-    `Invalid user credentials. <br>Error message: <em>${error.message}</em>.`
-  );
 }

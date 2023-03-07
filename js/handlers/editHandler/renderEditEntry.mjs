@@ -1,11 +1,16 @@
 import { DEFAULT_AVATAR } from "../../shared/constants.mjs";
 import { isValidUrl } from "../../shared/validURL.mjs";
 
-const apiEditEntry = document.querySelector(".api-edit-entry");
+/**
+ * Renders out an entry with current data to the html page
+ * @param {object} entry Entry data
+ */
+export function renderEditEntry(rawEntry) {
+  const apiEditEntry = document.querySelector(".api-edit-entry");
+  const entry = cleanEntryParameters(rawEntry);
 
-export function renderEditEntry(entry) {
-  const editHeader = getEditHeader(entry.author.name, entry.author.avatar);
-  const editTitleInput = getEditTileInput(entry.title);
+  const editHeader = getEditHeader(entry.author);
+  const editTitleInput = getEditTitleInput(entry.title);
   const editBodyInput = getEditBodyInput(entry.body);
   const editTagsInput = getEditTagsInput(entry.tags);
   const editMediaInput = getEditMediaInput(entry.media);
@@ -32,19 +37,62 @@ export function renderEditEntry(entry) {
   </div>`;
 }
 
-function getEditHeader(name, avatar) {
-  const authorAvatar = isValidUrl(avatar) ? avatar : DEFAULT_AVATAR;
+/**
+ * Make sure the entry data is valid and set default values
+ * @param {object} entry Entry data
+ * @returns {object} Entry data without errors, and with some default values
+ */
+function cleanEntryParameters(entry) {
+  let tags = "";
+  if (entry.tags != "") {
+    const seperatedTags = entry.tags.toString().replace(/ /g, "").split(",");
+    seperatedTags.forEach((tag) => {
+      tags += `#${tag} `;
+    });
+  }
+  entry.body = entry.body == null ? "" : entry.body;
+  entry.media = isValidUrl(entry.media) ? entry.media : "";
 
+  entry.author.avatar = isValidUrl(entry.author.avatar)
+    ? entry.author.avatar
+    : DEFAULT_AVATAR;
+
+  return {
+    title: entry.title,
+    body: entry.body,
+    tags: tags,
+    media: entry.media,
+    reactions: entry.reactions,
+    comments: entry.comments,
+    created: entry.created,
+    id: entry.id,
+    author: entry.author,
+    count: entry.count,
+  };
+}
+
+/**
+ * Creates the entry title as html code
+ * @param {object} author Author of entry
+ * @param {string} title Title of entry
+ * @returns {string} Entry header section
+ */
+function getEditHeader(author) {
   return `
   <div class="card-header bg-white border-0 rounded-bottom" id="headingOne">
     <div class="row">
-      <img class="col-2 col-sm-2 img-user m-0" src="${authorAvatar}" alt="${name}"/>
+      <img class="col-2 col-sm-2 img-user m-0" src="${author.avatar}" alt="${author.name}"/>
       <p class="text-primary col-3 fw-bold fs-5 mt-3"> Edit entry</p>
     </div>
   </div>`;
 }
 
-function getEditTileInput(title) {
+/**
+ * Creates the entry edit title as html code
+ * @param {string} title Current title of entry
+ * @returns {string} Entry title section
+ */
+function getEditTitleInput(title) {
   return `
   <input
     name="title"
@@ -57,6 +105,11 @@ function getEditTileInput(title) {
   />`;
 }
 
+/**
+ * Creates the entry body as html code
+ * @param {string} body Current body of entry
+ * @returns {string} Entry body section
+ */
 function getEditBodyInput(body) {
   return `
   <textarea
@@ -69,32 +122,44 @@ function getEditBodyInput(body) {
   </textarea> `;
 }
 
+/**
+ * Creates the entry tags as html code
+ * @param {string} tags Current tags of entry
+ * @returns {string} Entry tags section
+ */
 function getEditTagsInput(tags) {
-  const hashtags = tags.length == 0 ? "" : tags.join(", ");
   return `
   <input
     name="tags"
     type="text"
     id="tags"
     class="form-control mb-3"
-    value="${hashtags}"
+    value="${tags}"
     aria-label="Tag(s) of a new entry"
   /> `;
 }
 
+/**
+ * Creates the entry media as html code
+ * @param {string} media Current media of entry
+ * @returns {string} Entry media section
+ */
 function getEditMediaInput(media) {
-  const photo = media == null ? "" : media;
   return `
   <input
     type="url"
     id="media"
     name="media"
     class="form-control mb-3"
-    value="${photo}"
+    value="${media}"
     aria-label="Add URL of a media for the new entry"
   /> `;
 }
 
+/**
+ * Creates the edit entry button as html code
+ * @returns {string} Edit entry button section
+ */
 function getEditButton() {
   return `
   <button
@@ -106,6 +171,10 @@ function getEditButton() {
   </button>`;
 }
 
+/**
+ * Creates the cancel edit entry button as html code
+ * @returns {string} Cancel edit entry button section
+ */
 function getCancelButton() {
   return `
   <button class="btn btn-outline-primary" type="submit">

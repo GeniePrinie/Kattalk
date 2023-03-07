@@ -1,10 +1,14 @@
 import { isValidUrl } from "../../shared/validURL.mjs";
 import { DEFAULT_AVATAR, DEFAULT_BANNER } from "../../shared/constants.mjs";
 
-const displayAccount = document.querySelector(".display-account");
-
+/**
+ * Renders out a user profile to the html page
+ * @param {object} profile User profile
+ */
 export function renderProfile(profile) {
-  const profilePhoto = getProfilePhoto(profile.name, profile.avatar);
+  const displayAccount = document.querySelector(".display-account");
+
+  const profilePhoto = getProfileHeader(profile.name, profile.avatar);
   const profileUserInfo = getProfileUserInfo(profile.name, profile.email);
   const profileBanner = getProfileBanner(profile.banner);
 
@@ -15,7 +19,13 @@ export function renderProfile(profile) {
  `;
 }
 
-function getProfilePhoto(name, avatar) {
+/**
+ * Creates the user profile header as html code
+ * @param {string} name Name of user
+ * @param {string} avatar Avatar of user
+ * @returns {string} User profile header section
+ */
+function getProfileHeader(name, avatar) {
   const avatarImage = isValidUrl(avatar) ? avatar : DEFAULT_AVATAR;
 
   return `
@@ -33,6 +43,12 @@ function getProfilePhoto(name, avatar) {
     </div>`;
 }
 
+/**
+ * Creates the user profile info as html code
+ * @param {string} name Name of user
+ * @param {string} email Email of user
+ * @returns {string} User profile info section
+ */
 function getProfileUserInfo(name, email) {
   return `
     <div class="container mt-5 px-4 d-flex justify-content-center">
@@ -50,6 +66,11 @@ function getProfileUserInfo(name, email) {
     </div>`;
 }
 
+/**
+ * Creates the user profile banner as html code
+ * @param {string} banner Banner of user
+ * @returns {string} User profile banner section
+ */
 function getProfileBanner(banner) {
   const bannerImage = isValidUrl(banner) ? banner : DEFAULT_BANNER;
 
