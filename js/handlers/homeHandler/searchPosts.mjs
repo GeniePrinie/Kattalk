@@ -13,17 +13,6 @@ export function searchPosts(entries) {
     });
 
     renderPosts(filteredEntries);
+    return filteredEntries;
   };
-
-  // userSearch.addEventListener("search", (event) => {
-  //   const searchValue = event.target.value.trim().toLowerCase();
-
-  //   const filteredEntries = entries.filter((entry) => {
-  //     if (entry.title.toLowerCase().includes(searchValue)) {
-  //       return true;
-  //     }
-  //   });
-
-  //   renderPosts(filteredEntries);
-  // });
 }

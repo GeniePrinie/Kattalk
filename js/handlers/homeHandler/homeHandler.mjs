@@ -7,6 +7,9 @@ import { load } from "../../shared/storage.mjs";
 import { redirectToHome, redirectToLogin } from "../../shared/redirect.mjs";
 import { createModal } from "../../shared/modal.mjs";
 
+/**
+ * Checks if user is already logged in
+ */
 export function checkIfLoggedIn() {
   const token = load("token");
 
@@ -15,10 +18,16 @@ export function checkIfLoggedIn() {
   }
 }
 
+/**
+ * Displays the post entry functionality
+ */
 export function displayPostEntry() {
   renderCreateEntry();
 }
 
+/**
+ * Displays the post entries functionality
+ */
 export function displayEntries() {
   getEntries()
     .then((entries) => {
@@ -31,53 +40,9 @@ export function displayEntries() {
     });
 }
 
-// for (let i = 0; i < 10; i++) {
-//   const entry = entries[i];
-//   const postData = {
-//     title: entry.title,
-//     body: entry.body,
-//     tags: entry.tags,
-//     media: entry.media,
-//     reactions: entry.reactions,
-//     comments: entry.comments,
-//     created: entry.created,
-//     id: entry.id,
-//     author: entry.author,
-//     count: entry._count,
-//   };
-//   renderAllPosts(postData);
-// }
-// const userSearch = document.querySelector(".search");
-
-// userSearch.onkeyup = function (event) {
-//   const searchValue = event.target.value.trim().toLowerCase();
-//   const apiEntries = document.querySelector(".api-entries");
-//   apiEntries.innerHTML = "";      3xc
-
-//   const filteredEntries = entries.filter((entry) => {
-//     if (entry.title && entry.title.toLowerCase().includes(searchValue)) {
-//       return true;
-//     }
-//   });
-
-//   for (let i = 0; i < 10; i++) {
-//     const entry = filteredEntries[i];
-//     const postData = {
-//       title: entry.title,
-//       body: entry.body,
-//       tags: entry.tags,
-//       media: entry.media,
-//       reactions: entry.reactions,
-//       comments: entry.comments,
-//       created: entry.created,
-//       id: entry.id,
-//       author: entry.author,
-//       count: entry._count,
-//     };
-//     renderAllPosts(postData);
-//   }
-// };
-
+/**
+ * Displays the post entries functionality
+ */
 export function setCreateFormListener() {
   const formCreatePost = document.querySelector(".form-create-post");
 
@@ -101,26 +66,31 @@ export function setCreateFormListener() {
   }
 }
 
-function restructureUserInput(post) {
-  const body = post.body;
-  const media = post.media;
-  const tags = post.tags;
+/**
+ * Validate user input when creating a new entry
+ * @param {object} entry Input data from user to create a new entry
+ * @returns {object} Validated user input
+ */
+function restructureUserInput(entry) {
+  const body = entry.body;
+  const media = entry.media;
+  const tags = entry.tags;
 
   if (body == "") {
-    delete post.body;
+    delete entry.body;
   }
 
   if (media == "") {
-    delete post.media;
+    delete entry.media;
   }
 
   if (tags == "") {
-    delete post.tags;
+    delete entry.tags;
   } else {
-    post.tags = tags.toString().replace(/ /g, "").split(",");
+    entry.tags = tags.toString().replace(/ /g, "").split(",");
   }
 
-  return post;
+  return entry;
 }
 
 function handleSuccessful(post) {
