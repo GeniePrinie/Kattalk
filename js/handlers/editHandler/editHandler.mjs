@@ -31,10 +31,10 @@ export async function displayEditEntry() {
  * Edits entry based of URL parameter (id) on current page when triggered by user
  */
 export function setEditFormListener() {
+  const formEditEntry = document.querySelector(".form-edit-entry");
   const queryString = document.location.search;
   const params = new URLSearchParams(queryString);
   const id = params.get("id");
-  const formEditEntry = document.querySelector(".form-edit-entry");
 
   if (formEditEntry) {
     formEditEntry.addEventListener("submit", (e) => {
@@ -68,20 +68,10 @@ export function setEditFormListener() {
  * @returns {object} Validated user input
  */
 function restructureUserInput(entry) {
-  const body = entry.body.replace(/^\s+|\s+$/g, "");
-  const media = entry.media.replace(/^\s+|\s+$/g, "");
-  const tags = entry.tags.replace(/^\s+|\s+$/g, "");
+  const { tags } = entry;
 
-  if (body == "") {
-    delete entry.body;
-  }
-
-  if (media == "") {
-    delete entry.media;
-  }
-
-  if (tags == "") {
-    delete entry.tags;
+  if (tags.replace(/^\s+|\s+$/g, "") == "") {
+    entry.tags = [];
   } else {
     entry.tags = tags.toString().replace(/ /g, "").split(",");
   }

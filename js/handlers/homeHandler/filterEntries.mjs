@@ -65,7 +65,7 @@ function getFilteredEntries(filterBy, entries) {
       break;
     case "tagsEntries":
       filteredEntries = entries.filter((entry) => {
-        if (entry.tags.length != 0) {
+        if (entry.tags.length != 0 && entry.tags[0] != "") {
           return true;
         }
       });

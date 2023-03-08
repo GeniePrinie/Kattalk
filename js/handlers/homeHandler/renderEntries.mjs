@@ -23,7 +23,7 @@ export function renderEntries(entries) {
     const timeAndTags = getTimeAndTags(entry.tags, entry.created);
     const mediaImage = getMediaImage(entry.media);
     const entryBody = getEntryBody(entry.body);
-    const interactionCount = getInteractionCount(entry.count);
+    const interactionCount = getInteractionCount(entry._count);
     const displayComments = getDisplayComments(entry.comments);
     const displayReactions = getDisplayReactions(entry.reactions);
 
@@ -62,15 +62,21 @@ export function renderEntries(entries) {
  * @returns {object} Entry data without errors, and with some default values
  */
 function cleanEntryParameters(entry) {
-  let tags = "";
-  if (entry.tags != "") {
-    const seperatedTags = entry.tags.toString().replace(/ /g, "").split(",");
-    seperatedTags.forEach((tag) => {
-      tags += `#${tag} `;
+  const { tags, body, media, author } = entry;
+
+  let buildTags = "";
+  if (tags.length != 0) {
+    tags.forEach((tag) => {
+      buildTags += `#${tag} `;
     });
   }
-  entry.body = entry.body == null ? "" : entry.body;
-  entry.media = isValidUrl(entry.media) ? entry.media : "";
+  entry.tags = buildTags;
+  entry.body = body == null ? "" : body;
+  entry.media = isValidUrl(media) ? media : "";
+
+  entry.author.avatar = isValidUrl(author.avatar)
+    ? author.avatar
+    : DEFAULT_AVATAR;
 
   entry.comments.forEach((comment) => {
     comment.author.avatar = isValidUrl(comment.author.avatar)
@@ -78,22 +84,7 @@ function cleanEntryParameters(entry) {
       : DEFAULT_AVATAR;
   });
 
-  entry.author.avatar = isValidUrl(entry.author.avatar)
-    ? entry.author.avatar
-    : DEFAULT_AVATAR;
-
-  return {
-    title: entry.title,
-    body: entry.body,
-    tags: tags,
-    media: entry.media,
-    reactions: entry.reactions,
-    comments: entry.comments,
-    created: entry.created,
-    id: entry.id,
-    author: entry.author,
-    count: entry._count,
-  };
+  return entry;
 }
 
 /**
@@ -103,9 +94,10 @@ function cleanEntryParameters(entry) {
  * @returns {string} Entry header section
  */
 function getEntryHeader(author, title, id) {
-  return `<img class="col-2 col-sm-2 rounded img-user m-0 mb-3" src="${author.avatar}" alt="${author.name}"/>
+  const { avatar, name } = author;
+  return `<img class="col-2 col-sm-2 rounded img-user m-0 mb-3" src="${avatar}" alt="${name}"/>
           <a href="/html/entry/details/?id=${id}" class="card-title col m-0 pt-3 text-decoration-none text-black">
-            <h2 class="fs-5 col">${title} <small><em>written by</em> ${author.name}</small></h2>
+            <h2 class="fs-5 col">${title} <small><em>written by</em> ${name}</small></h2>
           </a>`;
 }
 
@@ -172,12 +164,13 @@ function getEntryBody(body) {
  * @returns {string} Entry interactions section
  */
 function getInteractionCount(count) {
+  const { reactions, comments } = count;
   return `<div class="d-flex justify-content-center border-top border-bottom mt-3">
             <button class="btn m-1 col-6 align-self-center" type="button" data-toggle="collapse" data-target="#collapseReaction" aria-expanded="false" aria-controls="collapseReaction">
-                <i class="fa-regular fa-heart me-2"></i>${count.reactions} Reaction(s)
+                <i class="fa-regular fa-heart me-2"></i>${reactions} Reaction(s)
             </button>
             <button class="btn m-1 col-6" type="button" data-toggle="collapse" data-target="#collapseComment" aria-expanded="false" aria-controls="collapseComment">
-                <i class="fa-regular fa-comment me-2"></i>${count.comments} Comment(s)
+                <i class="fa-regular fa-comment me-2"></i>${comments} Comment(s)
             </button>
         </div>`;
 }
@@ -190,12 +183,13 @@ function getInteractionCount(count) {
 function getDisplayComments(comments) {
   let buildCommentSection = "";
   comments.forEach((comment) => {
+    const { author, created, body } = comment;
     buildCommentSection += `
         <div class="comment row border-bottom mt-2">
-            <img class="col-2 col-sm-2 img-user m-0 mb-3 img-comment" src="${comment.author.avatar}" alt="${comment.author.name}"/>
-            <h3 class="card-title col fs-5 m-0 pt-1"><small>${comment.author.name}</small></h3>
-            <small class="pb-1">${comment.created}</small>
-            <p>${comment.body}</p>
+            <img class="col-2 col-sm-2 img-user m-0 mb-3 img-comment" src="${author.avatar}" alt="${author.name}"/>
+            <h3 class="card-title col fs-5 m-0 pt-1"><small>${author.name}</small></h3>
+            <small class="pb-1">${created}</small>
+            <p>${body}</p>
         </div>`;
   });
   return buildCommentSection;
@@ -209,9 +203,10 @@ function getDisplayComments(comments) {
 function getDisplayReactions(reactions) {
   let buildReactionSection = "";
   reactions.forEach((reaction) => {
+    const { symbol, count } = reaction;
     buildReactionSection += `
         <div class="comment mt-2">
-            <p>${reaction.symbol} <small><em>${reaction.count}</em></small>&nbsp;&nbsp;</p>
+            <p>${symbol} <small><em>${count}</em></small>&nbsp;&nbsp;</p>
         </div>`;
   });
   return buildReactionSection;

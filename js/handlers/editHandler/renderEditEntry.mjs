@@ -43,32 +43,16 @@ export function renderEditEntry(rawEntry) {
  * @returns {object} Entry data without errors, and with some default values
  */
 function cleanEntryParameters(entry) {
-  let tags = "";
-  if (entry.tags != "") {
-    const seperatedTags = entry.tags.toString().replace(/ /g, "").split(",");
-    seperatedTags.forEach((tag) => {
-      tags += `#${tag} `;
-    });
-  }
-  entry.body = entry.body == null ? "" : entry.body;
-  entry.media = isValidUrl(entry.media) ? entry.media : "";
+  const { tags, body, media, author } = entry;
 
-  entry.author.avatar = isValidUrl(entry.author.avatar)
-    ? entry.author.avatar
+  entry.tags = tags.toString().replace(/ /g, "").split(",");
+  entry.body = body == null ? "" : body;
+  entry.media = isValidUrl(media) ? media : "";
+  entry.author.avatar = isValidUrl(author.avatar)
+    ? author.avatar
     : DEFAULT_AVATAR;
 
-  return {
-    title: entry.title,
-    body: entry.body,
-    tags: tags,
-    media: entry.media,
-    reactions: entry.reactions,
-    comments: entry.comments,
-    created: entry.created,
-    id: entry.id,
-    author: entry.author,
-    count: entry.count,
-  };
+  return entry;
 }
 
 /**
@@ -78,10 +62,11 @@ function cleanEntryParameters(entry) {
  * @returns {string} Entry header section
  */
 function getEditHeader(author) {
+  const { name, avatar } = author;
   return `
   <div class="card-header bg-white border-0 rounded-bottom" id="headingOne">
     <div class="row">
-      <img class="col-2 col-sm-2 img-user m-0" src="${author.avatar}" alt="${author.name}"/>
+      <img class="col-2 col-sm-2 img-user m-0" src="${avatar}" alt="${name}"/>
       <p class="text-primary col-3 fw-bold fs-5 mt-3"> Edit entry</p>
     </div>
   </div>`;

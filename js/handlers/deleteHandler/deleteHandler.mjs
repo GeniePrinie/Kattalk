@@ -10,8 +10,8 @@ export function deleteEntry() {
   const id = params.get("id");
 
   removeEntry(id)
-    .then((httpStatus) => {
-      if (httpStatus == "204") {
+    .then((apiResponse) => {
+      if (apiResponse == "204") {
         redirectToHome();
       }
     })
