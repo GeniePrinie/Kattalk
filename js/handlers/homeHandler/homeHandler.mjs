@@ -36,7 +36,8 @@ export function displayEntries() {
       filterEntries(entries);
     })
     .catch((error) => {
-      console.log(error);
+      alert(error);
+      redirectToHome();
     });
 }
 

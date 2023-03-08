@@ -56,7 +56,7 @@ export function renderSpecificEntry(rawEntry) {
  * @returns {object} Entry data without errors, and with some default values
  */
 function cleanEntryParameters(entry) {
-  const { tags, body, media, author } = entry;
+  const { tags, body, media, author, created } = entry;
 
   let buildTags = "";
   if (tags.length != 0) {
@@ -64,6 +64,7 @@ function cleanEntryParameters(entry) {
       buildTags += `#${tag} `;
     });
   }
+
   entry.tags = buildTags;
   entry.body = body == null ? "" : body;
   entry.media = isValidUrl(media) ? media : "";
@@ -77,6 +78,20 @@ function cleanEntryParameters(entry) {
       ? comment.author.avatar
       : DEFAULT_AVATAR;
   });
+
+  const m = new Date(created);
+  entry.created =
+    m.getUTCFullYear() +
+    "/" +
+    ("0" + (m.getUTCMonth() + 1)).slice(-2) +
+    "/" +
+    ("0" + m.getUTCDate()).slice(-2) +
+    " " +
+    ("0" + m.getUTCHours()).slice(-2) +
+    ":" +
+    ("0" + m.getUTCMinutes()).slice(-2) +
+    ":" +
+    ("0" + m.getUTCSeconds()).slice(-2);
 
   return entry;
 }

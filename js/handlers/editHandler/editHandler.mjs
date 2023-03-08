@@ -23,7 +23,8 @@ export async function displayEditEntry() {
       renderEditEntry(entryData);
     })
     .catch((error) => {
-      console.log(error);
+      alert(error);
+      redirectToHome();
     });
 }
 

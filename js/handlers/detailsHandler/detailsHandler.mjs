@@ -1,4 +1,5 @@
 import { getEntry } from "../../controllers/entryController.mjs";
+import { redirectToHome } from "../../shared/redirect.mjs";
 import { renderSpecificEntry } from "./renderSpecificEntry.mjs";
 
 /**
@@ -26,6 +27,7 @@ export function displayEntry() {
       renderSpecificEntry(entryData);
     })
     .catch((error) => {
-      console.log(error);
+      alert(error);
+      redirectToHome();
     });
 }

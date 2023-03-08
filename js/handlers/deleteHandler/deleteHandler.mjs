@@ -16,6 +16,7 @@ export function deleteEntry() {
       }
     })
     .catch((error) => {
-      console.log(error);
+      alert(error);
+      redirectToHome();
     });
 }
