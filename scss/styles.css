@@ -10953,6 +10953,10 @@ li.dropdown:last-child .dropdown-menu {
   width: 100%;
 }
 
+.link-hover:hover {
+  text-decoration: underline;
+}
+
 .fa-ellipsis-vertical {
   cursor: pointer;
 }

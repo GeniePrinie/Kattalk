@@ -111,7 +111,7 @@ function getEntryHeader(author, title, id) {
   const { avatar, name } = author;
   return `<img class="col-2 col-sm-2 rounded img-user m-0 mb-3" src="${avatar}" alt="${name}"/>
           <a href="/html/entry/details/?id=${id}" class="card-title col m-0 pt-3 text-decoration-none text-black">
-            <h2 class="fs-5 col">${title} <small><em>written by</em> ${name}</small></h2>
+            <h2 class="fs-5 col link-hover">${title} <small><em>written by</em> ${name}</small></h2>
           </a>`;
 }
 
