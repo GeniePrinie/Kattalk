@@ -49,6 +49,7 @@ The project was to create a responsive social media service for Noroff Sutdents 
 ### Home page
 
 This page has a feed of entries from Noroff API (which can be clicked to view in an individual post page), a search bar, and a form to create a new entry. It will redirect to Login page if the user hasn't signed in (no token in local storage).
+The user can also edit or delete his/her own post.
 
 ### Profile page
 
@@ -68,7 +69,7 @@ This page shows an individual post that was clicked to view from the Home page.
 
 ## Trello
 
-Trello was used to plan the project
+Trello was used to plan the project >>
 [Kattalk Trello](https://trello.com/b/V6fRQZEG/kattalk-js2)
 
 ## Contact
