@@ -1,5 +1,8 @@
 # Kattalk social network by Prinyapon Prinyanut
 
+![Screenshot 2023-03-08 at 1 23 37 PM](https://user-images.githubusercontent.com/100139381/223712502-43142a2c-5353-4bb5-9426-d1b34f4a805e.png)
+
+
 ## Description
 
 The project was to create a responsive social media service for Noroff Sutdents by using Javascript.
