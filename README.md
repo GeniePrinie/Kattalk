@@ -2,7 +2,6 @@
 
 ![Screenshot 2023-03-08 at 1 23 37 PM](https://user-images.githubusercontent.com/100139381/223712502-43142a2c-5353-4bb5-9426-d1b34f4a805e.png)
 
-
 ## Description
 
 The project was to create a responsive social media service for Noroff Sutdents by using Javascript.
@@ -52,7 +51,7 @@ The project was to create a responsive social media service for Noroff Sutdents 
 ### Home page
 
 This page has a feed of entries from Noroff API (which can be clicked to view in an individual post page), a search bar, and a form to create a new entry. It will redirect to Login page if the user hasn't signed in (no token in local storage).
-The user can also edit or delete his/her own post.
+The user can also edit or delete his/her own post. Users can also view the comments and reactions to each post.
 
 ### Profile page
 
