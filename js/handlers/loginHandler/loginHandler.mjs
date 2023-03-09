@@ -33,7 +33,8 @@ export function setLoginFormListener() {
       login(profile)
         .then(() => {
           createModal(`Successful login.`);
-          redirectToHome();
+          const clearForm = document.querySelector(".modal-close-login");
+          clearForm.addEventListener("click", redirectToHome);
         })
         .catch((error) => {
           createModal(
