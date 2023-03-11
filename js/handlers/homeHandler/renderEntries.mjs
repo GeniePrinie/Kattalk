@@ -87,19 +87,9 @@ function cleanEntryParameters(entry) {
       : DEFAULT_AVATAR;
   });
 
-  const m = new Date(created);
+  const timestamp = new Date(created);
   entry.created =
-    m.getUTCFullYear() +
-    "/" +
-    ("0" + (m.getUTCMonth() + 1)).slice(-2) +
-    "/" +
-    ("0" + m.getUTCDate()).slice(-2) +
-    " " +
-    ("0" + m.getUTCHours()).slice(-2) +
-    ":" +
-    ("0" + m.getUTCMinutes()).slice(-2) +
-    ":" +
-    ("0" + m.getUTCSeconds()).slice(-2);
+    timestamp.toLocaleDateString() + " " + timestamp.toLocaleTimeString();
 
   return entry;
 }
