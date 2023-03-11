@@ -1,0 +1,13 @@
+$primary: #d63384;
+$secondary: #e794be;
+
+@import "../node_modules/bootstrap/scss/bootstrap";
+
+@import"./components/navbar";
+@import"./components/loginForm";
+@import"./components/cardPosts";
+@import"./components/imgProfile";
+@import"./components/main";
+@import"./components/footer";
+
+
