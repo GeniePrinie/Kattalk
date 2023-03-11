@@ -59,7 +59,7 @@ function cleanEntryParameters(entry) {
   const { tags, body, media, author, created } = entry;
 
   let buildTags = "";
-  if (tags.length != 0) {
+  if (tags.length != 0 && tags != "") {
     tags.forEach((tag) => {
       buildTags += `#${tag} `;
     });

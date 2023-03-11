@@ -65,11 +65,14 @@ function cleanEntryParameters(entry) {
   const { tags, body, media, author, created } = entry;
 
   let buildTags = "";
-  if (tags.length != 0) {
+  if (Array.isArray(tags)) {
     tags.forEach((tag) => {
       buildTags += `#${tag} `;
     });
+  } else {
+    buildTags = tags;
   }
+
   entry.tags = buildTags;
   entry.body = body == null ? "" : body;
   entry.media = isValidUrl(media) ? media : "";
