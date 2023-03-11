@@ -1,23 +1,20 @@
 import { Pages } from "./shared/pages.mjs";
+
 import {
+  deleteEntry,
+  displayEntry,
+  displayEditEntry,
+  setEditFormListener,
   checkIfLoggedIn,
   displayPostEntry,
   displayEntries,
   setCreateFormListener,
-} from "./handlers/homeHandler/homeHandler.mjs";
-import {
   checkIfLoggedOut,
   setLoginFormListener,
-} from "./handlers/loginHandler/loginHandler.mjs";
-import { clearTokenAndLogout } from "./handlers/logoutHandler/logoutHandler.mjs";
-import { setRegisterFormListener } from "./handlers/registerHandler/registerHandler.mjs";
-import { displayProfile } from "./handlers/profileHandler/profileHandler.mjs";
-import { displayEntry } from "./handlers/detailsHandler/detailsHandler.mjs";
-import {
-  displayEditEntry,
-  setEditFormListener,
-} from "./handlers/editHandler/editHandler.mjs";
-import { deleteEntry } from "./handlers/deleteHandler/deleteHandler.mjs";
+  clearTokenAndLogout,
+  displayProfile,
+  setRegisterFormListener,
+} from "./handlers/index.mjs";
 
 const path = location.pathname;
 
